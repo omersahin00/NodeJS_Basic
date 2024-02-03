@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const db = require("../data/db");
+
+
 const data = {
     title: "Popüler Kurslar",
     categories: ["Web Geliştirme", "Programlama", "Mobil Uygulamalar", "Veri Analizi"],
@@ -49,7 +52,18 @@ router.use("/blogs", function(req, res){
 });
 
 router.use("/", function(req, res){
-    res.render("users/index", data);
+    db.execute("select * from Blog where anasayfa = 1")
+        .then(result => {
+            let blogs = result[0];
+            res.render("users/index", {
+                title: blogs.title,
+                blogs: blogs,
+                categories: data.categories, // Veri tabanında olmadığı için geçiçi olarak diziden çekildi.
+                anasayfa: blogs.anasayfa,
+                onay: blogs.onay
+            });
+        })
+        .catch(err => console.log(err));
 });
 
 module.exports = router;
