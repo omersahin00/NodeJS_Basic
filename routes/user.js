@@ -3,8 +3,18 @@ const router = express.Router();
 
 const db = require("../data/db"); 
 
-router.use("/blogs/:blogid", function(req, res){
-    res.render("users/blog-details");
+router.use("/blogs/:blogid", async function(req, res){
+    try {
+        const blogID = req.params.blogid;
+        const [blog] = await db.execute("select * from Blog where blogid = ?", [blogID]);
+        res.render("users/blog-details", {
+            title: blog[0].baslik,
+            blog: blog[0]
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
 });
 
 router.use("/blogs", async function(req, res){
@@ -16,7 +26,7 @@ router.use("/blogs", async function(req, res){
             blogs: blogs, 
             categories: categories
         });
-    } 
+    }
     catch (error) {
         console.log(error);
     }
