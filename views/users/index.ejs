@@ -13,7 +13,7 @@
 
                 <!-- menu -->
                 <%- include('../partials/category-menu', categories) %>
-
+                
             </div>
             <div class="col-md-9">
                 <h1 class="h3 mb-3">
@@ -21,9 +21,7 @@
                 </h1>
 
                 <% blogs.forEach(element => { %>
-                    <% if (element.anasayfa) { %>
                         <%- include('../partials/blog-card', element) %>
-                    <% } %>
                 <% }) %>
 
                 <!-- pagination -->
