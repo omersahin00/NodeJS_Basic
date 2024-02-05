@@ -28,7 +28,7 @@ router.use("/blogs/:blogid", async function(req, res){
     try {
         const blogID = req.params.blogid;
         const [blogs] = await db.execute("select * from Blog where blogid = ?", [blogID]);
-        const blog = blogs[0]; // veriler dizi olarak geldiği için dizi içerisinden ilk elemanı seçmemiz gerekior.
+        const blog = blogs[0];
         if (blog){
             res.render("users/blog-details", {
                 title: blog.baslik,
