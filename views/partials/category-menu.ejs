@@ -1,6 +1,20 @@
-<div class="list-group">                    
-    <a href="/" class="list-group-item"> Tüm Kategoriler </a>
+<div class="list-group">
+    <a href="/" 
+        class="list-group-item list-group-item-action
+        <%= selectedCategory == 0 ? "active" : "" %>"> 
+        Tüm Kategoriler 
+    </a>
+    <a href="/blogs" 
+        class="list-group-item list-group-item-action
+        <%= selectedCategory == -1 ? "active" : "" %>"> 
+        Popüler Kurslar 
+    </a>
+    
     <% categories.forEach(element => { %>
-        <a href="/blogs/category/<%= element.categoryid %>" class="list-group-item"> <%= element.title %> </a>
+        <a href="/blogs/category/<%= element.categoryid %>" 
+            class="list-group-item list-group-item-action
+            <%= selectedCategory == element.categoryid ? "active" : "" %>"> 
+            <%= element.title %> 
+        </a>
     <% }); %>
 </div>

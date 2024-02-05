@@ -9,11 +9,12 @@ router.use("/blogs/category/:categoryid", async function(req, res) {
         const [blogs] = await db.execute("select * from Blog where categoryid = ?", [categoryid]);
         const [categories] = await db.execute("select * from Category");
         if (blogs) {
-            id = parseInt(categoryid) - 1;
+            id = parseInt(categoryid);
             res.render("users/blogs", {
-                title: categories[id].title,
+                selectedCategory: id,
+                title: categories[--id].title,
                 blogs: blogs,
-                categories: categories
+                categories: categories,
             });
         }
         else res.redirect("/");
@@ -48,7 +49,8 @@ router.use("/blogs", async function(req, res){
         res.render("users/blogs", {
             title: "Popüler Kurslar",
             blogs: blogs, 
-            categories: categories
+            categories: categories,
+            selectedCategory: -1
         });
     }
     catch (error) {
@@ -63,7 +65,8 @@ router.use("/", async function(req, res){
         res.render("users/index", {
             title: "Tüm Kurslar",
             blogs: blogs,
-            categories: categories
+            categories: categories,
+            selectedCategory: 0
         });
     }
     catch (error) {
