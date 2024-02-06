@@ -1,9 +1,11 @@
 const express = require("express");
-const app = express();
+const app = express(); 
 const path = require("path");
 
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
+
+app.use(express.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs");
 console.log(app.get("view engine"));
