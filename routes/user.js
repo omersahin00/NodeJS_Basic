@@ -3,7 +3,7 @@ const router = express.Router();
 
 const db = require("../data/db");
 
-router.use("/blogs/category/:categoryid", async function(req, res) {
+router.get("/blogs/category/:categoryid", async function(req, res) {
     try {
         const categoryid = req.params.categoryid;
         const [blogs] = await db.execute("select * from Blog where categoryid = ?", [categoryid]);
@@ -24,7 +24,7 @@ router.use("/blogs/category/:categoryid", async function(req, res) {
     }
 });
 
-router.use("/blogs/:blogid", async function(req, res){
+router.get("/blogs/:blogid", async function(req, res){
     try {
         const blogID = req.params.blogid;
         const [blogs] = await db.execute("select * from Blog where blogid = ?", [blogID]);
@@ -42,7 +42,7 @@ router.use("/blogs/:blogid", async function(req, res){
     }
 });
 
-router.use("/blogs", async function(req, res){
+router.get("/blogs", async function(req, res){
     try {
         const [blogs] = await db.execute("select * from Blog where onay = 1");
         const [categories] = await db.execute("select * from Category");
@@ -58,7 +58,7 @@ router.use("/blogs", async function(req, res){
     }
 });
 
-router.use("/", async function(req, res){
+router.get("/", async function(req, res){
     try {
         const [blogs] = await db.execute("select * from Blog where anasayfa = 1");
         const [categories] = await db.execute("select * from Category");

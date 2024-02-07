@@ -35,15 +35,28 @@ router.post("/blogs/create", async function(req, res){
     }
 });
 
-
-
-
-router.get("/blogs/:id", function(req, res){
-    res.render("admin/blog-edit");
+router.get("/blogs/:id", async function(req, res){
+    //res.render("admin/blog-edit");
+    const id = req.params.id;
+    
+    try {
+        const [blog] = await db.execute("select * from Blog where blogid = ?", [id]);
+        const [categories] = await db.execute("select * from Category");
+        if (blog){
+            res.render("admin/blog-edit", {
+                title: "Blog Edit",
+                blog: blog[0],
+                categories: categories
+            });
+        }
+        else res.redirect("admin/blogs");
+    }
+    catch (error) {
+        console.log(error);
+    }
 });
 
 router.get("/blogs", async function(req, res){
-
     try {
         const [blogs] = await db.execute("select blogid, resim, baslik from Blog");
         res.render("admin/blog-list", {
@@ -54,8 +67,6 @@ router.get("/blogs", async function(req, res){
     catch (error) {
         console.log(error);
     }
-
-    // res.render("admin/blog-list", {title: "Test"});
 });
 
 module.exports = router;
