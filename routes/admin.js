@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../data/db");
 
-
 router.get("/blogs/delete/:blogid", async function(req, res){
     try {
         const blogid = req.params.blogid;
@@ -10,9 +9,7 @@ router.get("/blogs/delete/:blogid", async function(req, res){
         if (blog){
             res.render("admin/blog-delete", {
                 title: "Delete Blog",
-                blog: blog[0],
-                action: req.query.action,
-                blogid: req.query.blogid
+                blog: blog[0]
             });
         }
         else redirect("/admin/blogs");
@@ -26,7 +23,7 @@ router.post("/blogs/delete/:blogid", async function(req, res){
     try {
         const blogid = req.body.blogid;
         db.execute("delete from Blog where blogid = ?", [blogid]);
-        res.redirect("/admin/blogs?action=delete&blogid=" + blogid);
+        res.redirect("/admin/blogs?action=delete&blogid=" + blogid + "&type=blog");
     }
     catch (error) {
         console.log(error);
@@ -38,9 +35,7 @@ router.get("/blogs/create", async function(req, res){
         const [categories] = await db.execute("select * from Category");
         res.render("admin/blog-create", {
             title: "Add Blog",
-            categories: categories,
-            action: req.query.action,
-            blogid: req.query.blogid
+            categories: categories
         });    
     }
     catch (error) {
@@ -61,7 +56,7 @@ router.post("/blogs/create", async function(req, res){
     try {
         await db.execute("insert into Blog(baslik, aciklama, resim, anasayfa, onay, categoryid) values (?,?,?,?,?,?)", 
             [baslik, aciklama, resim, anasayfa, onay, kategori]);
-        res.redirect("/admin/blogs?action=create");
+        res.redirect("/admin/blogs?action=create&type=blog");
     }
     catch (error) {
         console.log(error);
@@ -79,7 +74,8 @@ router.get("/blogs/:id", async function(req, res){
                 blog: blog[0],
                 categories: categories,
                 action: req.query.action,
-                blogid: req.query.blogid
+                blogid: req.query.blogid,
+                type: req.query.type
             });
         }
         else res.redirect("admin/blogs");
@@ -105,7 +101,7 @@ router.post("/blogs/:blogid", async function(req, res){
 
         await db.execute("update Blog set baslik = ?, aciklama = ?, resim = ?, anasayfa = ?, onay = ?, categoryid = ? where blogid = ?", 
         [baslik, aciklama, resim, anasayfa, onay, kategori, blogid]);
-        res.redirect("/admin/blogs?action=edit&blogid=" + blogid);
+        res.redirect("/admin/blogs?action=edit&blogid=" + blogid + "&type=blog");
     }
     catch (error) {
         console.log(error);
@@ -115,16 +111,134 @@ router.post("/blogs/:blogid", async function(req, res){
 router.get("/blogs", async function(req, res){
     try {
         const [blogs] = await db.execute("select blogid, resim, baslik from Blog");
-        res.render("admin/blog-list", {
-            title: "Blog List",
-            blogs: blogs,
+        if (blogs){
+            res.render("admin/blog-list", {
+                title: "Blog List",
+                blogs: blogs,
+                action: req.query.action,
+                blogid: req.query.blogid,
+                type: req.query.type
+            });
+        }
+        else res.redirect("/admin/blogs?action=error");
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
+router.get("/category/delete/:categoryid", async function(req, res){
+    try {
+        const categoryid = req.params.categoryid;
+        const [category] = await db.execute("select * from Category where categoryid = ?", [categoryid]);
+        if (category){
+            res.render("admin/category-delete", {
+                title: "Delete Category",
+                category: category[0]
+            });
+        }
+        else res.redirect("/admin/category?action=error");
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
+router.post("/category/delete/:categoryid", async function(req, res){
+    try {
+        const categoryid = req.params.categoryid;
+        db.execute("delete from Category where categoryid = ?", [categoryid]);
+        res.redirect("/admin/category?action=delete&type=category");
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
+router.get("/category/create", async function(req, res){
+    try {
+        res.render("admin/category-create", {
+            title: "Category Create",
             action: req.query.action,
-            blogid: req.query.blogid
+            type: req.query.type
         });
     }
     catch (error) {
         console.log(error);
     }
 });
+
+router.post("/category/create", async function(req, res){
+    try {
+        const newTitle = req.body.title;
+        const [categories] = await db.execute("select * from Category");
+        if (categories){
+            if ((categories.filter(c => c.title.toLowerCase().toUpperCase() == newTitle.toLowerCase().toUpperCase()))[0]){
+                // Veri tabanında girilen title ile eşleşen başka bir kayıt varsa buraya girecek
+                res.redirect("/admin/category/create?action=error&type=conflict");
+            }
+            else {
+                await db.execute("insert into Category(title) values (?)", [newTitle]);
+                res.redirect("/admin/category?action=create&type=category");
+            }
+        }
+        else res.redirect("/admin/category?action=error");
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
+router.get("/category/:categoryid", async function(req, res){
+    try {
+        const categoryid = req.params.categoryid;
+        const [category] = await db.execute("select * from Category where categoryid = ?", [categoryid]);
+        if (category){
+            res.render("admin/category-edit", {
+                title: "Category Edit",
+                category: category[0]
+            });
+        }
+        else res.redirect("/admin/category?action=error");
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
+router.post("/category/:categoryid", async function(req, res){
+    try {
+        const categoryid = req.body.categoryid;
+        if (categoryid != req.params.categoryid){
+            console.log("İşlem gerçekleştirilemedi! \ncategoryid eşleşmedi.");
+            res.redirect("/admin/category-list?action=error");
+        }
+        const title = req.body.title;
+        await db.execute("update Category set title = ? where categoryid = ?", [title, categoryid]);
+        res.redirect("/admin/category?action=edit&type=category");
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
+router.get("/category", async function(req, res){
+    try {
+        const [categories] = await db.execute("select * from Category");
+        if (categories){
+            res.render("admin/category-list", {
+                title: "Category List",
+                categories: categories,
+                action: req.query.action,
+                type: req.query.type
+            });
+        }
+        else res.redirect("/admin/category?action=error");
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
 
 module.exports = router;
