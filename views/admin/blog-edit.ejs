@@ -12,7 +12,7 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col-md-12 mt-3">
-                <form method="post" action="">
+                <form method="post" action="" enctype="multipart/form-data">
                     <input type="hidden" name="blogid" value="<%= blog.blogid %>">
                     <div class="row mb-3">
                         <label for="baslik" class="col-sm-2 col-form-label">Başlık</label>
@@ -26,12 +26,19 @@
                             <textarea name="aciklama" class="form-control" rows="10"><%= blog.aciklama %></textarea>
                         </div>
                     </div>
+
+                    <!-- Eğerki kullanıcı yeni resim yüklemezse eski resmin tekrar gönderilmesi sağlnacak: -->
+                    <input type="hidden" name="resim" value="<%= blog.resim %>">
+
+                    <img src="/static/images/<%= blog.resim %>" alt="" width="150px">
                     <div class="row mb-3">
+                        
                         <label for="resim" class="col-sm-2 col-form-label">Resim</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="resim" name="resim" value="<%= blog.resim %>">
+                            <input type="file" class="form-control" id="resim" name="resim" value="<%= blog.resim %>">
                         </div>
                     </div>
+
                     <div class="row mb-3">
                         <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
                         <div class="col-sm-8">

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../data/db");
+const imageUpload = require("../helpers/image-upload");
 
 router.get("/blogs/delete/:blogid", async function(req, res){
     try {
@@ -43,12 +44,10 @@ router.get("/blogs/create", async function(req, res){
     }
 });
 
-router.post("/blogs/create", async function(req, res){
-    console.log(req.body);
-
+router.post("/blogs/create", imageUpload.upload.single("resim"), async function(req, res){
     const baslik = req.body.baslik;
     const aciklama = req.body.aciklama;
-    const resim = req.body.resim;
+    const resim = req.file.filename;
     const kategori = req.body.kategori;
     const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
     const onay = req.body.onay == "on" ? 1 : 0;
@@ -85,7 +84,7 @@ router.get("/blogs/:id", async function(req, res){
     }
 });
 
-router.post("/blogs/:blogid", async function(req, res){
+router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function(req, res){
     try {
         const blogid = req.body.blogid;
         if (req.params.blogid != blogid) {
@@ -94,7 +93,11 @@ router.post("/blogs/:blogid", async function(req, res){
         }
         const baslik = req.body.baslik;
         const aciklama = req.body.aciklama;
-        const resim = req.body.resim;
+        let resim = req.body.resim;
+        if (req.file){
+            resim = null;
+            resim = req.file.filename;
+        }
         const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
         const onay = req.body.onay == "on" ? 1 : 0;
         const kategori = req.body.kategori;
