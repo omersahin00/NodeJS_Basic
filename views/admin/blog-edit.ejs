@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
     <%- include("../partials/head")  %> 
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 300px;
+        }
+    </style>
 </head>
 <body>
     
     <%- include("../partials/nav")  %> 
-
     <%- include('../partials/navAdmin') %>
 
     <div class="container mt-3">
@@ -21,9 +25,15 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="aciklama" class="col-sm-2 col-form-label">Açıklama</label>
+                        <label for="aciklama" class="col-sm-2 col-form-label">Aciklama</label>
                         <div class="col-sm-8">
-                            <textarea name="aciklama" class="form-control" rows="10"><%= blog.aciklama %></textarea>
+                            <textarea name="aciklama" class="form-control" rows="2" ><%= blog.aciklama %></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="icerik" class="col-sm-2 col-form-label">İçerik</label>
+                        <div class="col-sm-8">
+                            <textarea id="editor" name="icerik" class="form-control" rows="10"><%- blog.icerik %></textarea>
                         </div>
                     </div>
 
@@ -87,6 +97,15 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
     
 </body>
 </html>

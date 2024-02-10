@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../data/db");
 const imageUpload = require("../helpers/image-upload");
+const fs = require("fs");
+
 
 router.get("/blogs/delete/:blogid", async function(req, res){
     try {
@@ -51,10 +53,11 @@ router.post("/blogs/create", imageUpload.upload.single("resim"), async function(
     const kategori = req.body.kategori;
     const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
     const onay = req.body.onay == "on" ? 1 : 0;
+    const icerik = req.body.icerik;
 
     try {
-        await db.execute("insert into Blog(baslik, aciklama, resim, anasayfa, onay, categoryid) values (?,?,?,?,?,?)", 
-            [baslik, aciklama, resim, anasayfa, onay, kategori]);
+        await db.execute("insert into Blog(baslik, aciklama, resim, anasayfa, onay, categoryid, icerik) values (?,?,?,?,?,?,?)", 
+            [baslik, aciklama, resim, anasayfa, onay, kategori, icerik]);
         res.redirect("/admin/blogs?action=create&type=blog");
     }
     catch (error) {
@@ -94,16 +97,22 @@ router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function
         const baslik = req.body.baslik;
         const aciklama = req.body.aciklama;
         let resim = req.body.resim;
+
         if (req.file){
-            resim = null;
             resim = req.file.filename;
+            fs.unlink("./public/images/" + req.body.resim, error => {
+                console.log(error);
+            });
         }
         const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
         const onay = req.body.onay == "on" ? 1 : 0;
         const kategori = req.body.kategori;
+        const icerik = req.body.icerik;
 
-        await db.execute("update Blog set baslik = ?, aciklama = ?, resim = ?, anasayfa = ?, onay = ?, categoryid = ? where blogid = ?", 
-        [baslik, aciklama, resim, anasayfa, onay, kategori, blogid]);
+        console.log(icerik);
+            
+        await db.execute("update Blog set baslik = ?, aciklama = ?, resim = ?, anasayfa = ?, onay = ?, categoryid = ?, icerik = ? where blogid = ?", 
+        [baslik, aciklama, resim, anasayfa, onay, kategori, icerik, blogid]);
         res.redirect("/admin/blogs?action=edit&blogid=" + blogid + "&type=blog");
     }
     catch (error) {
@@ -129,6 +138,9 @@ router.get("/blogs", async function(req, res){
         console.log(error);
     }
 });
+
+
+
 
 router.get("/category/delete/:categoryid", async function(req, res){
     try {
