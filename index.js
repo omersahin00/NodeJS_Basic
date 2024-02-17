@@ -10,6 +10,9 @@ app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 console.log(app.get("view engine"));
 
+const Blog = require("./models/blog");
+const Category = require("./models/category");
+
 app.use("/libs", express.static(path.join(__dirname, "node_modules"))); // libs -> dosya yolu verilirken node_modules yerine kullanılacak olan ifade (optional)
 app.use("/static", express.static(path.join(__dirname, "public"))); // static -> public yerine kullanılacak olan ifade (optional)
 
