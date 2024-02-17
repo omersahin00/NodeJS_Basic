@@ -141,7 +141,6 @@ router.get("/blogs", async function(req, res){
 
 
 
-
 router.get("/category/delete/:categoryid", async function(req, res){
     try {
         const categoryid = req.params.categoryid;
