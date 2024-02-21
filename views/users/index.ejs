@@ -12,7 +12,7 @@
             <div class="col-md-3">
 
                 <!-- category menu -->
-                <%- include('../partials/category-menu', categories, selectedCategory) %>
+                <%- include('../partials/category-menu', { categories: categories, selectedCategory: selectedCategory }) %>
                 
             </div>
             <div class="col-md-9">
@@ -20,8 +20,9 @@
                     <%= title %>
                 </h1>
 
-                <% blogs.forEach(element => { %>
-                        <%- include('../partials/blog-card', element) %>
+                <!-- blog-card -->
+                <% blogs.forEach(blog => { %>
+                    <%- include('../partials/blog-card', {blog: blog}) %>
                 <% }) %>
 
                 <!-- pagination -->

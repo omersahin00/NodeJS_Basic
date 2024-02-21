@@ -12,7 +12,9 @@ const { name } = require("ejs");
 router.get("/blogs/delete/:blogid", async function(req, res){
     try {
         const blogid = req.params.blogid;
-        const [blog] = await db.execute("select * from Blog where blogid = ?", [blogid]);
+        const blog = await Blog.findAll({
+            where: { blogid: blogid }
+        });
         if (blog){
             res.render("admin/blog-delete", {
                 title: "Delete Blog",
@@ -126,7 +128,9 @@ router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function
 
 router.get("/blogs", async function(req, res){
     try {
-        const [blogs] = await db.execute("select blogid, resim, baslik from Blog");
+        const blogs = await Blog.findAll({
+            attributes: ["blogid", "resim", "baslik"]
+        });
         if (blogs){
             res.render("admin/blog-list", {
                 title: "Blog List",
@@ -211,7 +215,9 @@ router.post("/category/create", async function(req, res){
 router.get("/category/:categoryid", async function(req, res){
     try {
         const categoryid = req.params.categoryid;
-        const [category] = await db.execute("select * from Category where categoryid = ?", [categoryid]);
+        const category = await Category.findAll({
+            where: { categoryid: categoryid }
+        });
         if (category){
             res.render("admin/category-edit", {
                 title: "Category Edit",
@@ -232,8 +238,10 @@ router.post("/category/:categoryid", async function(req, res){
             console.log("İşlem gerçekleştirilemedi! \ncategoryid eşleşmedi.");
             res.redirect("/admin/category-list?action=error");
         }
-        const title = req.body.title;
-        await db.execute("update Category set title = ? where categoryid = ?", [title, categoryid]);
+        const name = req.body.name;
+        await Category.update({ name: name }, {
+            where: { categoryid: categoryid }
+        });
         res.redirect("/admin/category?action=edit&type=category");
     }
     catch (error) {
@@ -243,7 +251,7 @@ router.post("/category/:categoryid", async function(req, res){
 
 router.get("/category", async function(req, res){
     try {
-        const [categories] = await db.execute("select * from Category");
+        const categories = await Category.findAll();
         if (categories){
             res.render("admin/category-list", {
                 title: "Category List",

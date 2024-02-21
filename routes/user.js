@@ -9,8 +9,11 @@ const Category = require("../models/category");
 router.get("/blogs/category/:categoryid", async function(req, res) {
     try {
         const categoryid = req.params.categoryid;
-        const [blogs] = await db.execute("select * from Blog where categoryid = ?", [categoryid]);
-        const [categories] = await db.execute("select * from Category");
+        const blogs = await Blog.findAll({
+            where: {categoryid: categoryid}
+        });
+        const categories = await Category.findAll();
+        
         if (blogs) {
             id = parseInt(categoryid);
             res.render("users/blogs", {
@@ -30,7 +33,9 @@ router.get("/blogs/category/:categoryid", async function(req, res) {
 router.get("/blogs/:blogid", async function(req, res){
     try {
         const blogID = req.params.blogid;
-        const [blogs] = await db.execute("select * from Blog where blogid = ?", [blogID]);
+        blogs = await Blog.findAll({
+            where: {blogid: blogID}
+        });
         const blog = blogs[0];
         if (blog){
             res.render("users/blog-details", {
@@ -47,8 +52,11 @@ router.get("/blogs/:blogid", async function(req, res){
 
 router.get("/blogs", async function(req, res){
     try {
-        const [blogs] = await db.execute("select * from Blog where onay = 1");
-        const [categories] = await db.execute("select * from Category");
+        const blogs = await Blog.findAll({
+            where: { onay: 1 }
+        });
+        const categories = await Category.findAll();
+
         res.render("users/blogs", {
             title: "Popüler Kurslar",
             blogs: blogs, 
@@ -63,8 +71,11 @@ router.get("/blogs", async function(req, res){
 
 router.get("/", async function(req, res){
     try {
-        const [blogs] = await db.execute("select * from Blog where anasayfa = 1");
-        const [categories] = await db.execute("select * from Category");
+        const blogs = await Blog.findAll({
+            where: { anasayfa: 0 }
+        });
+        const categories = await Category.findAll();
+
         res.render("users/index", {
             title: "Tüm Kurslar",
             blogs: blogs,
