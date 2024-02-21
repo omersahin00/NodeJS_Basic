@@ -6,7 +6,6 @@ const fs = require("fs");
 
 const Blog = require("../models/blog");
 const Category = require("../models/category");
-const { name } = require("ejs");
 
 
 router.get("/blogs/delete/:blogid", async function(req, res){
@@ -31,7 +30,9 @@ router.get("/blogs/delete/:blogid", async function(req, res){
 router.post("/blogs/delete/:blogid", async function(req, res){
     try {
         const blogid = req.body.blogid;
-        db.execute("delete from Blog where blogid = ?", [blogid]);
+        await Blog.destroy({
+            where: { blogid: blogid }
+        });
         res.redirect("/admin/blogs?action=delete&blogid=" + blogid + "&type=blog");
     }
     catch (error) {
@@ -41,7 +42,7 @@ router.post("/blogs/delete/:blogid", async function(req, res){
 
 router.get("/blogs/create", async function(req, res){
     try {
-        const [categories] = await db.execute("select * from Category");
+        const categories = await Category.findAll();
         res.render("admin/blog-create", {
             title: "Add Blog",
             categories: categories
@@ -56,14 +57,21 @@ router.post("/blogs/create", imageUpload.upload.single("resim"), async function(
     const baslik = req.body.baslik;
     const aciklama = req.body.aciklama;
     const resim = req.file.filename;
-    const kategori = req.body.kategori;
+    const categoryid = req.body.kategori;
     const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
     const onay = req.body.onay == "on" ? 1 : 0;
     const icerik = req.body.icerik;
 
     try {
-        await db.execute("insert into Blog(baslik, aciklama, resim, anasayfa, onay, categoryid, icerik) values (?,?,?,?,?,?,?)", 
-            [baslik, aciklama, resim, anasayfa, onay, kategori, icerik]);
+        await Blog.create({
+            baslik: baslik,
+            aciklama: aciklama,
+            resim: resim,
+            anasayfa: anasayfa,
+            onay: onay,
+            categoryid: categoryid,
+            icerik: icerik
+        });
         res.redirect("/admin/blogs?action=create&type=blog");
     }
     catch (error) {
@@ -71,11 +79,14 @@ router.post("/blogs/create", imageUpload.upload.single("resim"), async function(
     }
 });
 
-router.get("/blogs/:id", async function(req, res){
-    const id = req.params.id;
+router.get("/blogs/:blogid", async function(req, res){
+    const blogid = req.params.blogid;
     try {
-        const [blog] = await db.execute("select * from Blog where blogid = ?", [id]);
-        const [categories] = await db.execute("select * from Category");
+        const blog = await Blog.findAll({
+            where: { blogid: blogid }
+        });
+        const categories = await Category.findAll();
+
         if (blog){
             res.render("admin/blog-edit", {
                 title: "Blog Edit",
@@ -112,13 +123,21 @@ router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function
         }
         const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
         const onay = req.body.onay == "on" ? 1 : 0;
-        const kategori = req.body.kategori;
+        const categoryid = req.body.kategori;
         const icerik = req.body.icerik;
 
-        console.log(icerik);
-            
-        await db.execute("update Blog set baslik = ?, aciklama = ?, resim = ?, anasayfa = ?, onay = ?, categoryid = ?, icerik = ? where blogid = ?", 
-        [baslik, aciklama, resim, anasayfa, onay, kategori, icerik, blogid]);
+        await Blog.update({
+            baslik: baslik,
+            aciklama: aciklama,
+            resim: resim,
+            anasayfa: anasayfa,
+            onay: onay,
+            categoryid: categoryid,
+            icerik: icerik
+        }, {
+            where: { blogid: blogid }
+        });
+
         res.redirect("/admin/blogs?action=edit&blogid=" + blogid + "&type=blog");
     }
     catch (error) {
@@ -152,7 +171,9 @@ router.get("/blogs", async function(req, res){
 router.get("/category/delete/:categoryid", async function(req, res){
     try {
         const categoryid = req.params.categoryid;
-        const [category] = await db.execute("select * from Category where categoryid = ?", [categoryid]);
+        const category = await Category.findAll({
+            where: { categoryid: categoryid }
+        });
         if (category){
             res.render("admin/category-delete", {
                 title: "Delete Category",
@@ -169,7 +190,10 @@ router.get("/category/delete/:categoryid", async function(req, res){
 router.post("/category/delete/:categoryid", async function(req, res){
     try {
         const categoryid = req.params.categoryid;
-        db.execute("delete from Category where categoryid = ?", [categoryid]);
+        //db.execute("delete from Category where categoryid = ?", [categoryid]);
+        await Category.destroy({
+            where: { categoryid: categoryid }
+        });
         res.redirect("/admin/category?action=delete&type=category");
     }
     catch (error) {

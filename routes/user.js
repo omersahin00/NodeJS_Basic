@@ -72,7 +72,7 @@ router.get("/blogs", async function(req, res){
 router.get("/", async function(req, res){
     try {
         const blogs = await Blog.findAll({
-            where: { anasayfa: 0 }
+            where: { anasayfa: 1 }
         });
         const categories = await Category.findAll();
 
