@@ -3,6 +3,9 @@ const router = express.Router();
 
 const db = require("../data/db");
 
+const Blog = require("../models/blog");
+const Category = require("../models/category");
+
 router.get("/blogs/category/:categoryid", async function(req, res) {
     try {
         const categoryid = req.params.categoryid;

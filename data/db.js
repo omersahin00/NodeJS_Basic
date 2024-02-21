@@ -1,4 +1,3 @@
-const mysql = require("mysql2");
 const path = require("path");
 const config = require(path.join("../config"));
 

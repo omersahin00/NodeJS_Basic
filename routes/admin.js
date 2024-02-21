@@ -4,6 +4,10 @@ const db = require("../data/db");
 const imageUpload = require("../helpers/image-upload");
 const fs = require("fs");
 
+const Blog = require("../models/blog");
+const Category = require("../models/category");
+const { name } = require("ejs");
+
 
 router.get("/blogs/delete/:blogid", async function(req, res){
     try {
@@ -184,16 +188,17 @@ router.get("/category/create", async function(req, res){
 
 router.post("/category/create", async function(req, res){
     try {
-        const newTitle = req.body.title;
-        const [categories] = await db.execute("select * from Category");
+        const newCategory = req.body.title;
+        const categories = await Category.findAll();
+
         if (categories){
-            if ((categories.filter(c => c.title.toLowerCase().toUpperCase() == newTitle.toLowerCase().toUpperCase()))[0]){
+            if ((categories.filter(c => c.name.toLowerCase().toUpperCase() == newCategory.toLowerCase().toUpperCase()))[0]){
                 // Veri tabanında girilen title ile eşleşen başka bir kayıt varsa buraya girecek
                 res.redirect("/admin/category/create?action=error&type=conflict");
             }
             else {
-                await db.execute("insert into Category(title) values (?)", [newTitle]);
-                res.redirect("/admin/category?action=create&type=category");
+                await Category.create({ name: newCategory });
+                res.redirect("/admin/category/create?action=create&type=category");
             }
         }
         else res.redirect("/admin/category?action=error");
