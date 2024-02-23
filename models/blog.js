@@ -2,12 +2,12 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../data/db");
 
 const Blog = sequelize.define("blog", {
-    blogid: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
+    // blogid: {
+    //     type: DataTypes.INTEGER,
+    //     autoIncrement: true,
+    //     allowNull: false,
+    //     primaryKey: true
+    // },
     baslik: {
         type: DataTypes.STRING,
         allowNull: false
@@ -31,40 +31,11 @@ const Blog = sequelize.define("blog", {
     onay: {
         type: DataTypes.BOOLEAN,
         allowNull: true
-    },
-    categoryid: {
-        type: DataTypes.INTEGER,
-        allowNull: true
     }
+    // categoryid: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: true
+    // }
 });
-
-
-async function sync() {
-    await Blog.sync({ force: true });
-    console.log("Blog Tablosu Güncellendi.");
-
-    if (await Blog.count() == 0) {
-        await Blog.create({
-            baslik: "Komple Uygulamalı Web Geliştirme Eğitimi",
-            aciklama: "Sıfırdan ileri seviyeye 'Web Geliştirme': Html, Css, Sass, Flexbox, Bootstrap, Javascript, Angular, JQuery, Asp.Net Mvc&Core Mvc",
-            icerik: "Web geliştirme komple bir web sitesinin hem web tasarım (html,css,javascript), hem de web programlama (asp.net mvc) konularının kullanılarak geliştirilmesidir. Sadece html css kullanarak statik bir site tasarlayabiliriz ancak işin içine bir web programlama dilini de katarsak dinamik bir web uygulaması geliştirmiş oluruz.",
-            resim: "1.jpeg",
-            anasayfa: true,
-            onay: true,
-            categoryid: 1
-        });
-        await Blog.create({
-            baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
-            aciklama: "Sıfırdan İleri Seviye Python Dersleri.Veritabanı,Veri Analizi,Bot Yazımı,Web Geliştirme(Django)",
-            icerik: "Python, son zamanların en popüler programlama dili haline geldi. Python' ın bu kadar popüler olmasındaki sebep şüphesiz öğrenmesi kolay bir yazılım dili olmasıdır.sadikturan adreslerinde paylaşmış olduğum python dersleri serisini takip ederek ister video ister yazılı kaynaklar yardımıyla kısa zamanda python programlama alanında uzmanlık kazanın ve hayal ettiğiniz projeyi gerçekleştirin.",
-            resim: "2.jpeg",
-            anasayfa: true,
-            onay: true,
-            categoryid: 1
-        });
-    }
-}
-
-sync();
 
 module.exports = Blog;

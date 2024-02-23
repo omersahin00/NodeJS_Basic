@@ -5,6 +5,7 @@ const db = require("../data/db");
 
 const Blog = require("../models/blog");
 const Category = require("../models/category");
+const { Op } = require("sequelize");
 
 router.get("/blogs/category/:categoryid", async function(req, res) {
     try {
@@ -53,7 +54,7 @@ router.get("/blogs/:blogid", async function(req, res){
 router.get("/blogs", async function(req, res){
     try {
         const blogs = await Blog.findAll({
-            where: { onay: 1 }
+            where: { onay: true }
         });
         const categories = await Category.findAll();
 
@@ -72,7 +73,13 @@ router.get("/blogs", async function(req, res){
 router.get("/", async function(req, res){
     try {
         const blogs = await Blog.findAll({
-            where: { anasayfa: 1 }
+            where: { 
+                [Op.and]: [
+                    { anasayfa: true },
+                    { onay: true }
+                ]
+            },
+            raw: true
         });
         const categories = await Category.findAll();
 

@@ -16,6 +16,15 @@ app.use("/static", express.static(path.join(__dirname, "public"))); // static ->
 app.use("/admin", adminRouter);
 app.use(userRouter);
 
+
+const sequelize = require("./data/db");
+const dummyData = require("./data/dummy-data");
+
+
+await sequelize.sync({ alter: true });
+await dummyData();
+
+
 app.listen(3000, function() {
     console.log("listening on port 3000");
 });

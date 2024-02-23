@@ -82,15 +82,13 @@ router.post("/blogs/create", imageUpload.upload.single("resim"), async function(
 router.get("/blogs/:blogid", async function(req, res){
     const blogid = req.params.blogid;
     try {
-        const blog = await Blog.findAll({
-            where: { blogid: blogid }
-        });
         const categories = await Category.findAll();
-
-        if (blog){
+        const blog = await Blog.findByPk(blogid);
+        
+        if (blog) {
             res.render("admin/blog-edit", {
                 title: "Blog Edit",
-                blog: blog[0],
+                blog: blog.dataValues,
                 categories: categories,
                 action: req.query.action,
                 blogid: req.query.blogid,
@@ -114,7 +112,7 @@ router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function
         const baslik = req.body.baslik;
         const aciklama = req.body.aciklama;
         let resim = req.body.resim;
-
+        
         if (req.file){
             resim = req.file.filename;
             fs.unlink("./public/images/" + req.body.resim, error => {
