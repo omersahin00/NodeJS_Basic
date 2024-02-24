@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-12 mt-3">
                 <form method="post" action="" enctype="multipart/form-data">
-                    <input type="hidden" name="blogid" value="<%= blog.blogid %>">
+                    <input type="hidden" name="id" value="<%= blog.id %>">
                     <div class="row mb-3">
                         <label for="baslik" class="col-sm-2 col-form-label">Başlık</label>
                         <div class="col-sm-8">
@@ -56,15 +56,15 @@
                                 
                                 <option value="0" selected>Seçiniz</option>
 
-                                <% if (!(categories.lenght == 0)) { %>
+                                <% if (categories.lenght != 0) { %>
                                     <% categories.forEach(element => { %>
-                                        <option value="<%= element.categoryid %>"> <%= element.name %> </option>
+                                        <option value="<%= element.id %>"> <%= element.name %> </option>
                                     <% }) %>
                                 <% } %>
                             
                             </select>
                             <script>
-                                document.querySelector("#kategori").value = "<%= blog.categoryid %>"
+                                document.querySelector("#kategori").value = "<%= blog.categoryId %>"
                             </script>
                         </div>
                     </div>

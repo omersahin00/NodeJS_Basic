@@ -2,12 +2,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../data/db");
 
 const Blog = sequelize.define("blog", {
-    // blogid: {
-    //     type: DataTypes.INTEGER,
-    //     autoIncrement: true,
-    //     allowNull: false,
-    //     primaryKey: true
-    // },
     baslik: {
         type: DataTypes.STRING,
         allowNull: false
@@ -32,10 +26,6 @@ const Blog = sequelize.define("blog", {
         type: DataTypes.BOOLEAN,
         allowNull: true
     }
-    // categoryid: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: true
-    // }
 });
 
 module.exports = Blog;

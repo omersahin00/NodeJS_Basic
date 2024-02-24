@@ -2,9 +2,8 @@ const Category = require("../models/category");
 const Blog = require("../models/blog");
 
 async function populate() {
-    const count = await Category.count;
-
-    if (count == 0) {
+    const count = await Category.count();
+    if(count == 0) { 
 
         await Category.bulkCreate([
             { name: "Web Geliştirme" },
@@ -12,6 +11,7 @@ async function populate() {
             { name: "Programlama" }
         ]);
 
+        
         await Blog.create({
             baslik: "Komple Uygulamalı Web Geliştirme Eğitimi",
             aciklama: "Sıfırdan ileri seviyeye 'Web Geliştirme': Html, Css, Sass, Flexbox, Bootstrap, Javascript, Angular, JQuery, Asp.Net Mvc&Core Mvc",
@@ -21,6 +21,17 @@ async function populate() {
             onay: true,
             categoryId: 1
         });
+
+        await Blog.create({
+            baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
+            aciklama: "Sıfırdan İleri Seviye Python Dersleri.Veritabanı,Veri Analizi,Bot Yazımı,Web Geliştirme(Django)",
+            icerik: "Python, son zamanların en popüler programlama dili haline geldi. Python' ın bu kadar popüler olmasındaki sebep şüphesiz öğrenmesi kolay bir yazılım dili olmasıdır.sadikturan adreslerinde paylaşmış olduğum python dersleri serisini takip ederek ister video ister yazılı kaynaklar yardımıyla kısa zamanda python programlama alanında uzmanlık kazanın ve hayal ettiğiniz projeyi gerçekleştirin.",
+            resim: "2.jpeg",
+            anasayfa: true,
+            onay: true,
+            categoryId: 1
+        });
+
         await Blog.create({
             baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
             aciklama: "Sıfırdan İleri Seviye Python Dersleri.Veritabanı,Veri Analizi,Bot Yazımı,Web Geliştirme(Django)",
@@ -30,8 +41,17 @@ async function populate() {
             onay: true,
             categoryId: 2
         });
+
+        await Blog.create({
+            baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
+            aciklama: "Sıfırdan İleri Seviye Python Dersleri.Veritabanı,Veri Analizi,Bot Yazımı,Web Geliştirme(Django)",
+            icerik: "Python, son zamanların en popüler programlama dili haline geldi. Python' ın bu kadar popüler olmasındaki sebep şüphesiz öğrenmesi kolay bir yazılım dili olmasıdır.sadikturan adreslerinde paylaşmış olduğum python dersleri serisini takip ederek ister video ister yazılı kaynaklar yardımıyla kısa zamanda python programlama alanında uzmanlık kazanın ve hayal ettiğiniz projeyi gerçekleştirin.",
+            resim: "2.jpeg",
+            anasayfa: true,
+            onay: true,
+            categoryId: 3
+        });
     }
 }
-
 
 module.exports = populate;

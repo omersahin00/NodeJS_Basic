@@ -11,9 +11,9 @@
     </a>
     
     <% categories.forEach(element => { %>
-        <a href="/blogs/category/<%= element.categoryid %>" 
+        <a href="/blogs/category/<%= element.id %>" 
             class="list-group-item list-group-item-action
-            <%= selectedCategory == element.categoryid ? "active" : "" %>"> 
+            <%= selectedCategory == element.id ? "active" : "" %>"> 
             <%= element.name %> 
         </a>
     <% }); %>

@@ -12,9 +12,10 @@ router.get("/blogs/delete/:blogid", async function(req, res){
     try {
         const blogid = req.params.blogid;
         const blog = await Blog.findAll({
-            where: { blogid: blogid }
+            where: { id: blogid }
         });
         if (blog){
+            blog.blogid = blog.id;
             res.render("admin/blog-delete", {
                 title: "Delete Blog",
                 blog: blog[0]
@@ -31,7 +32,7 @@ router.post("/blogs/delete/:blogid", async function(req, res){
     try {
         const blogid = req.body.blogid;
         await Blog.destroy({
-            where: { blogid: blogid }
+            where: { id: blogid }
         });
         res.redirect("/admin/blogs?action=delete&blogid=" + blogid + "&type=blog");
     }
@@ -57,7 +58,7 @@ router.post("/blogs/create", imageUpload.upload.single("resim"), async function(
     const baslik = req.body.baslik;
     const aciklama = req.body.aciklama;
     const resim = req.file.filename;
-    const categoryid = req.body.kategori;
+    const categoryId = req.body.kategori;
     const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
     const onay = req.body.onay == "on" ? 1 : 0;
     const icerik = req.body.icerik;
@@ -69,7 +70,7 @@ router.post("/blogs/create", imageUpload.upload.single("resim"), async function(
             resim: resim,
             anasayfa: anasayfa,
             onay: onay,
-            categoryid: categoryid,
+            categoryId: categoryId,
             icerik: icerik
         });
         res.redirect("/admin/blogs?action=create&type=blog");
@@ -84,8 +85,8 @@ router.get("/blogs/:blogid", async function(req, res){
     try {
         const categories = await Category.findAll();
         const blog = await Blog.findByPk(blogid);
-        
         if (blog) {
+            blog.blogid = blog.id;
             res.render("admin/blog-edit", {
                 title: "Blog Edit",
                 blog: blog.dataValues,
@@ -104,7 +105,7 @@ router.get("/blogs/:blogid", async function(req, res){
 
 router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function(req, res){
     try {
-        const blogid = req.body.blogid;
+        const blogid = req.body.id;
         if (req.params.blogid != blogid) {
             console.log("İşlem gerçekleştirilemedi. \nblogid değerleri eşleşmedi!");
             return redirect("/admin/blogs");
@@ -121,7 +122,7 @@ router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function
         }
         const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
         const onay = req.body.onay == "on" ? 1 : 0;
-        const categoryid = req.body.kategori;
+        const categoryid = req.body.kategori
         const icerik = req.body.icerik;
 
         await Blog.update({
@@ -130,10 +131,10 @@ router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function
             resim: resim,
             anasayfa: anasayfa,
             onay: onay,
-            categoryid: categoryid,
+            categoryId: categoryid,
             icerik: icerik
         }, {
-            where: { blogid: blogid }
+            where: { id: blogid }
         });
 
         res.redirect("/admin/blogs?action=edit&blogid=" + blogid + "&type=blog");
@@ -146,9 +147,12 @@ router.post("/blogs/:blogid", imageUpload.upload.single("resim"), async function
 router.get("/blogs", async function(req, res){
     try {
         const blogs = await Blog.findAll({
-            attributes: ["blogid", "resim", "baslik"]
+            attributes: ["id", "resim", "baslik"]
         });
-        if (blogs){
+        if (blogs){            
+            blogs.forEach(blog => {
+                blog.blogid = blog.id;
+            });
             res.render("admin/blog-list", {
                 title: "Blog List",
                 blogs: blogs,
@@ -167,10 +171,15 @@ router.get("/blogs", async function(req, res){
 
 
 router.get("/category/delete/:categoryid", async function(req, res){
+    console.log("\n\n\n" + "Buraya girdi!" + "\n\n\n");
+    
     try {
         const categoryid = req.params.categoryid;
+
+        console.log("\n\n\n" + categoryid + "\n\n\n");
+
         const category = await Category.findAll({
-            where: { categoryid: categoryid }
+            where: { id: categoryid }
         });
         if (category){
             res.render("admin/category-delete", {
@@ -188,9 +197,8 @@ router.get("/category/delete/:categoryid", async function(req, res){
 router.post("/category/delete/:categoryid", async function(req, res){
     try {
         const categoryid = req.params.categoryid;
-        //db.execute("delete from Category where categoryid = ?", [categoryid]);
         await Category.destroy({
-            where: { categoryid: categoryid }
+            where: { id: categoryid }
         });
         res.redirect("/admin/category?action=delete&type=category");
     }
@@ -214,20 +222,22 @@ router.get("/category/create", async function(req, res){
 
 router.post("/category/create", async function(req, res){
     try {
-        const newCategory = req.body.title;
+        const newCategory = req.body.name;
         const categories = await Category.findAll();
+        await Category.create({ name: newCategory });
+        res.redirect("/admin/category?action=create&type=category");
 
-        if (categories){
-            if ((categories.filter(c => c.name.toLowerCase().toUpperCase() == newCategory.toLowerCase().toUpperCase()))[0]){
-                // Veri tabanında girilen title ile eşleşen başka bir kayıt varsa buraya girecek
-                res.redirect("/admin/category/create?action=error&type=conflict");
-            }
-            else {
-                await Category.create({ name: newCategory });
-                res.redirect("/admin/category/create?action=create&type=category");
-            }
-        }
-        else res.redirect("/admin/category?action=error");
+        // if (categories){
+        //     if ((categories.filter(c => c.name.toLowerCase().toUpperCase() == newCategory.toLowerCase().toUpperCase()))[0]){
+        //         // Veri tabanında girilen title ile eşleşen başka bir kayıt varsa buraya girecek
+        //         res.redirect("/admin/category/create?action=error&type=conflict");
+        //     }
+        //     else {
+        //         await Category.create({ name: newCategory });
+        //         res.redirect("/admin/category?action=create&type=category");
+        //     }
+        // }
+        // else res.redirect("/admin/category?action=error");
     }
     catch (error) {
         console.log(error);
@@ -238,7 +248,7 @@ router.get("/category/:categoryid", async function(req, res){
     try {
         const categoryid = req.params.categoryid;
         const category = await Category.findAll({
-            where: { categoryid: categoryid }
+            where: { id: categoryid }
         });
         if (category){
             res.render("admin/category-edit", {
@@ -262,7 +272,7 @@ router.post("/category/:categoryid", async function(req, res){
         }
         const name = req.body.name;
         await Category.update({ name: name }, {
-            where: { categoryid: categoryid }
+            where: { id: categoryid }
         });
         res.redirect("/admin/category?action=edit&type=category");
     }

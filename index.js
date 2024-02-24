@@ -20,9 +20,22 @@ app.use(userRouter);
 const sequelize = require("./data/db");
 const dummyData = require("./data/dummy-data");
 
+const Blog = require("./models/blog");
+const Category = require("./models/category");
 
-await sequelize.sync({ alter: true });
-await dummyData();
+Category.hasMany(Blog, {
+    foreignKey: {
+        name: 'categoryId',
+        allowNull: false,
+    }
+});
+Blog.belongsTo(Category);
+
+
+(async () => {
+    await sequelize.sync({ alter: true });
+    await dummyData();
+})();
 
 
 app.listen(3000, function() {

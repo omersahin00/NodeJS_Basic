@@ -26,13 +26,13 @@
                     <tbody>
                         <% categories.forEach(category => { %>
                             <tr>
-                                <td> #<%= category.categoryid %> </td>
+                                <td> #<%= category.id %> </td>
                                 <td>
                                     <%= category.name %>
                                 </td>
                                 <td>
-                                    <a href="/admin/category/<%= category.categoryid %>" class="btn btn-sm btn-primary">Edit</a>
-                                    <a href="/admin/category/delete/<%= category.categoryid %>" class="btn btn-sm btn-danger">Delete</a>
+                                    <a href="/admin/category/<%= category.id %>" class="btn btn-sm btn-primary">Edit</a>
+                                    <a href="/admin/category/delete/<%= category.id %>" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
                         <% }) %>

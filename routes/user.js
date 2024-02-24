@@ -7,16 +7,16 @@ const Blog = require("../models/blog");
 const Category = require("../models/category");
 const { Op } = require("sequelize");
 
-router.get("/blogs/category/:categoryid", async function(req, res) {
+router.get("/blogs/category/:categoryId", async function(req, res) {
     try {
-        const categoryid = req.params.categoryid;
+        const categoryId = req.params.categoryId;
         const blogs = await Blog.findAll({
-            where: {categoryid: categoryid}
+            where: {categoryId: categoryId}
         });
         const categories = await Category.findAll();
         
         if (blogs) {
-            id = parseInt(categoryid);
+            id = parseInt(categoryId);
             res.render("users/blogs", {
                 selectedCategory: id,
                 title: categories[--id].title,
@@ -35,7 +35,7 @@ router.get("/blogs/:blogid", async function(req, res){
     try {
         const blogID = req.params.blogid;
         blogs = await Blog.findAll({
-            where: {blogid: blogID}
+            where: {id: blogID}
         });
         const blog = blogs[0];
         if (blog){

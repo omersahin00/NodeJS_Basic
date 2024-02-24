@@ -48,9 +48,9 @@
                                 
                                 <option value="-1" selected>Seçiniz</option>
 
-                                <% if (!(categories.lenght == 0)) { %>
+                                <% if (categories.lenght != 0) { %>
                                     <% categories.forEach(element => { %>
-                                        <option value="<%= element.categoryid %>"> <%= element.name %> </option>
+                                        <option value="<%= element.id %>"> <%= element.name %> </option>
                                     <% }) %>
                                 <% } %>
 
