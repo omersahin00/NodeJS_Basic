@@ -20,7 +20,6 @@ router.post("/blogs/:blogid", imageUpload.upload.single("resim"), adminControlle
 router.get("/blogs", adminController.get_blogs);
 
 
-
 router.get("/category/delete/:categoryid", adminController.get_category_delete);
 
 router.post("/category/delete/:categoryid", adminController.post_category_delete);
