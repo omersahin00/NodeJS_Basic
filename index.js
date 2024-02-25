@@ -26,8 +26,10 @@ const Category = require("./models/category");
 Category.hasMany(Blog, {
     foreignKey: {
         name: 'categoryId',
-        allowNull: false,
-    }
+        allowNull: true,
+    },
+    onDelete: "SET NULL",
+    onUpdate: "SET NULL"
 });
 Blog.belongsTo(Category);
 

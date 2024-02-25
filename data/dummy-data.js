@@ -3,6 +3,7 @@ const Blog = require("../models/blog");
 
 async function populate() {
     const count = await Category.count();
+
     if(count == 0) { 
 
         await Category.bulkCreate([
@@ -11,7 +12,7 @@ async function populate() {
             { name: "Programlama" }
         ]);
 
-        
+
         await Blog.create({
             baslik: "Komple Uygulamalı Web Geliştirme Eğitimi",
             aciklama: "Sıfırdan ileri seviyeye 'Web Geliştirme': Html, Css, Sass, Flexbox, Bootstrap, Javascript, Angular, JQuery, Asp.Net Mvc&Core Mvc",
@@ -33,25 +34,26 @@ async function populate() {
         });
 
         await Blog.create({
-            baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
-            aciklama: "Sıfırdan İleri Seviye Python Dersleri.Veritabanı,Veri Analizi,Bot Yazımı,Web Geliştirme(Django)",
-            icerik: "Python, son zamanların en popüler programlama dili haline geldi. Python' ın bu kadar popüler olmasındaki sebep şüphesiz öğrenmesi kolay bir yazılım dili olmasıdır.sadikturan adreslerinde paylaşmış olduğum python dersleri serisini takip ederek ister video ister yazılı kaynaklar yardımıyla kısa zamanda python programlama alanında uzmanlık kazanın ve hayal ettiğiniz projeyi gerçekleştirin.",
-            resim: "2.jpeg",
+            baslik: "Sıfırdan İleri Seviye Modern Javascript Dersleri ES7+",
+            aciklama: "Modern javascript dersleri ile (ES6 & ES7+) Nodejs, Angular, React ve VueJs için sağlam bir temel oluşturun.",
+            icerik: "Neden Javascript? Javascript son zamanlarda en popüler diller arasında yerini aldı hatta Javascript listenin en başında diyebiliriz. Peki son zamanlarda bu kadar popüler hale gelen Javascript nedir? Çoğu web geliştirici için Javascript sadece tarayıcıda yani client tarafında çalışan ve html içeriklerini hareketli hale getiren bir script dili olarak biliniyor.  Web sitemize eklediğimiz bir resim galerisi, bir butona tıkladığımızda bir pop-up kutusunun açılması gibi html içeriklerini hareketli hale getiren ve yıllardır kullandığımız programlama dili tabi ki Javascript. Bu yönüyle Javascript 'i yıllardır zaten kullanmaktayız. Ancak son zamanlarda Javascript' i bu kadar popüler yapan neden nedir?",
+            resim: "3.jpeg",
             anasayfa: true,
             onay: true,
             categoryId: 2
         });
 
         await Blog.create({
-            baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
-            aciklama: "Sıfırdan İleri Seviye Python Dersleri.Veritabanı,Veri Analizi,Bot Yazımı,Web Geliştirme(Django)",
-            icerik: "Python, son zamanların en popüler programlama dili haline geldi. Python' ın bu kadar popüler olmasındaki sebep şüphesiz öğrenmesi kolay bir yazılım dili olmasıdır.sadikturan adreslerinde paylaşmış olduğum python dersleri serisini takip ederek ister video ister yazılı kaynaklar yardımıyla kısa zamanda python programlama alanında uzmanlık kazanın ve hayal ettiğiniz projeyi gerçekleştirin.",
-            resim: "2.jpeg",
+            baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
+            aciklama: "Node.js ile sıfırdan ileri seviye dinamik web uygulaması geliştirmeyi öğren.",
+            icerik: "En popüler programlama dili olan Javascript programlama dilini artık Node.js sayesinde server tabanlı bir dil olarak kullanabilirsin.Kurs sonunda sadece Javascript programlama dilini kullanarak Fullstack bir web geliştirici olmak istiyorsan hemen kursa katılmalısın! Üstelik 30 gün iade garantisiyle! Kursumuz piyasadaki en popüler ve en güncel Node.js kursudur.",
+            resim: "4.jpeg",
             anasayfa: true,
             onay: true,
             categoryId: 3
         });
     }
+
 }
 
 module.exports = populate;

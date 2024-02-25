@@ -1,3 +1,4 @@
+const { count } = require("console");
 const Blog = require("../models/blog");
 const Category = require("../models/category");
 const fs = require("fs");
@@ -141,12 +142,14 @@ exports.post_blog_edit = async function(req, res){
 exports.get_blogs = async function(req, res){
     try {
         const blogs = await Blog.findAll({
-            attributes: ["id", "resim", "baslik"]
+            attributes: ["id", "resim", "baslik", "categoryId"],
+            include: {
+                model: Category,
+                attributes: ["name"]
+            }
         });
-        if (blogs){            
-            blogs.forEach(blog => {
-                blog.blogid = blog.id;
-            });
+        
+        if (blogs){
             res.render("admin/blog-list", {
                 title: "Blog List",
                 blogs: blogs,
@@ -155,6 +158,8 @@ exports.get_blogs = async function(req, res){
                 type: req.query.type
             });
         }
+
+
         else res.redirect("/admin/blogs?action=error");
     }
     catch (error) {
@@ -164,14 +169,9 @@ exports.get_blogs = async function(req, res){
 
 
 
-exports.get_category_delete = async function(req, res){
-    console.log("\n\n\n" + "Buraya girdi!" + "\n\n\n");
-    
+exports.get_category_delete = async function(req, res){  
     try {
         const categoryid = req.params.categoryid;
-
-        console.log("\n\n\n" + categoryid + "\n\n\n");
-
         const category = await Category.findAll({
             where: { id: categoryid }
         });
@@ -241,13 +241,17 @@ exports.post_category_create = async function(req, res){
 exports.get_category_edit = async function(req, res){
     try {
         const categoryid = req.params.categoryid;
-        const category = await Category.findAll({
-            where: { id: categoryid }
-        });
+
+        const category = await Category.findByPk(categoryid);
+        const countBlog = await category.countBlogs();
+        const blogs = await category.getBlogs();
+
         if (category){
             res.render("admin/category-edit", {
                 title: "Category Edit",
-                category: category[0]
+                category: category,
+                blogs: blogs,
+                countBlog: countBlog
             });
         }
         else res.redirect("/admin/category?action=error");

@@ -40,11 +40,10 @@
                     <!-- Eğerki kullanıcı yeni resim yüklemezse eski resmin tekrar gönderilmesi sağlnacak: -->
                     <input type="hidden" name="resim" value="<%= blog.resim %>">
 
-                    <img src="/static/images/<%= blog.resim %>" alt="" width="150px">
                     <div class="row mb-3">
-                        
                         <label for="resim" class="col-sm-2 col-form-label">Resim</label>
                         <div class="col-sm-8">
+                            <img src="/static/images/<%= blog.resim %>" alt="" width="150px">
                             <input type="file" class="form-control" id="resim" name="resim" value="<%= blog.resim %>">
                         </div>
                     </div>
