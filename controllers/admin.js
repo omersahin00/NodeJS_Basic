@@ -142,7 +142,7 @@ exports.post_blog_edit = async function(req, res){
 exports.get_blogs = async function(req, res){
     try {
         const blogs = await Blog.findAll({
-            attributes: ["id", "resim", "baslik", "categoryId"],
+            attributes: ["id", "resim", "baslik"],
             include: {
                 model: Category,
                 attributes: ["name"]
@@ -158,8 +158,6 @@ exports.get_blogs = async function(req, res){
                 type: req.query.type
             });
         }
-
-
         else res.redirect("/admin/blogs?action=error");
     }
     catch (error) {

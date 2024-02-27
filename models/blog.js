@@ -26,6 +26,8 @@ const Blog = sequelize.define("blog", {
         type: DataTypes.BOOLEAN,
         allowNull: true
     }
+}, {
+    timestamps: true
 });
 
 module.exports = Blog;
