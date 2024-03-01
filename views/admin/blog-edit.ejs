@@ -14,83 +14,86 @@
     <%- include('../partials/navAdmin') %>
 
     <div class="container mt-3">
-        <div class="row my-5 gx-5">
-            <div class="col-md-10">
-                <form method="post" action="" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="<%= blog.id %>">
-                    <div class="row mb-3">
-                        <label for="baslik" class="col-sm-1 col-form-label">Başlık</label>
-                        <div class="col-sm-11">
-                            <input type="text" class="form-control" id="baslik" name="baslik" value="<%= blog.baslik %>">
+        <form method="post" action="" enctype="multipart/form-data">
+            <div class="row my-5 gx-5">
+                <div class="col-md-10">
+                    
+                        <input type="hidden" name="id" value="<%= blog.id %>">
+                        <div class="row mb-3">
+                            <label for="baslik" class="col-sm-1 col-form-label">Başlık</label>
+                            <div class="col-sm-11">
+                                <input type="text" class="form-control" id="baslik" name="baslik" value="<%= blog.baslik %>">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="aciklama" class="col-sm-1 col-form-label">Aciklama</label>
-                        <div class="col-sm-11">
-                            <textarea name="aciklama" class="form-control" rows="2" ><%= blog.aciklama %></textarea>
+                        <div class="row mb-3">
+                            <label for="aciklama" class="col-sm-1 col-form-label">Aciklama</label>
+                            <div class="col-sm-11">
+                                <textarea name="aciklama" class="form-control" rows="2" ><%= blog.aciklama %></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="icerik" class="col-sm-1 col-form-label">İçerik</label>
-                        <div class="col-sm-11">
-                            <textarea id="editor" name="icerik" class="form-control" rows="10"><%- blog.icerik %></textarea>
+                        <div class="row mb-3">
+                            <label for="icerik" class="col-sm-1 col-form-label">İçerik</label>
+                            <div class="col-sm-11">
+                                <textarea id="editor" name="icerik" class="form-control" rows="10"><%- blog.icerik %></textarea>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Eğerki kullanıcı yeni resim yüklemezse eski resmin tekrar gönderilmesi sağlnacak: -->
-                    <input type="hidden" name="resim" value="<%= blog.resim %>">
+                        <!-- Eğerki kullanıcı yeni resim yüklemezse eski resmin yolunun tekrar gönderilmesi sağlnacak: -->
+                        <input type="hidden" name="resim" value="<%= blog.resim %>">
 
-                    <div class="row mb-3">
-                        <label for="resim" class="col-sm-1 col-form-label">Resim</label>
-                        <div class="col-sm-11">
-                            <img src="/static/images/<%= blog.resim %>" alt="" width="150px">
-                            <input type="file" class="form-control" id="resim" name="resim" value="<%= blog.resim %>">
+                        <div class="row mb-3">
+                            <label for="resim" class="col-sm-1 col-form-label">Resim</label>
+                            <div class="col-sm-11">
+                                <img src="/static/images/<%= blog.resim %>" alt="" width="150px">
+                                <input type="file" class="form-control" id="resim" name="resim" value="<%= blog.resim %>">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row mb-3">
-                        <div class="col-sm-8 offset-sm-2">
-                          <button type="submit" class="btn btn-primary">Güncelle</button>
+                        <div class="row mb-3">
+                            <div class="col-sm-8 offset-sm-1">
+                            <button type="submit" class="btn btn-primary">Güncelle</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="col-md-2">
-                <div class="row">
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="anasayfa" name="anasayfa" <%= blog.anasayfa?"checked":"" %> />
-                        <label class="form-check-label" for="anasayfa">
-                            Anasayfa
-                        </label>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="onay" name="onay" <%= blog.onay?"checked":"" %> />
-                        <label class="form-check-label" for="onay">
-                            Onay
-                        </label>
-                    </div>
+                    </form>
                 </div>
 
-                <div class="row border-top pt-3">
-                    <% categories.forEach(category => { %>
-                        <div class="form-check">
-                            <input class="form-check-input" 
-                                type="checkbox" 
-                                id="category_<%= category.id %>" 
-                                name="" 
-                                <%= blog.categories.some(cat => cat.id == category.id) ? "checked": "" %>
-                            />
-                            <label class="form-check-label" for="category_<%= category.id %>">
-                                <%= category.name %>
+                <div class="col-md-2">
+                    <div class="row">
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="anasayfa" name="anasayfa" <%= blog.anasayfa?"checked":"" %> />
+                            <label class="form-check-label" for="anasayfa">
+                                Anasayfa
                             </label>
                         </div>
-                    <% }) %>
+                    </div>
+                    <div class="row mb-3">
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="onay" name="onay" <%= blog.onay?"checked":"" %> />
+                            <label class="form-check-label" for="onay">
+                                Onay
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row border-top pt-3">
+                        <% categories.forEach(category => { %>
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                    type="checkbox"
+                                    id="category_<%= category.id %>"
+                                    name="categories[]"
+                                    value="<%= category.id %> "
+                                    <%= blog.categories.some(cat => cat.id == category.id) ? "checked": "" %> 
+                                />
+                                <label class="form-check-label" for="category_<%= category.id %>">
+                                    <%= category.name %>
+                                </label>
+                            </div>
+                        <% }) %>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>

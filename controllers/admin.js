@@ -1,7 +1,7 @@
-const { count } = require("console");
 const Blog = require("../models/blog");
 const Category = require("../models/category");
 const fs = require("fs");
+const { Op } = require("sequelize");
 
 exports.get_blog_delete = async function(req, res){
     try {
@@ -116,6 +116,8 @@ exports.post_blog_edit = async function(req, res){
         }
         const baslik = req.body.baslik;
         const aciklama = req.body.aciklama;
+        const icerik = req.body.icerik;
+        const categoryIds = req.body.categories;
         let resim = req.body.resim;
         
         if (req.file){
@@ -124,24 +126,54 @@ exports.post_blog_edit = async function(req, res){
                 console.log(error);
             });
         }
+
         const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
         const onay = req.body.onay == "on" ? 1 : 0;
-        const categoryid = req.body.kategori
-        const icerik = req.body.icerik;
+ 
+        try {
+            const blog = await Blog.findOne({
+                where: {
+                    id: blogid,
+                },
+                include: {
+                    model: Category,
+                    attributes: ["id"]
+                }
+            });
 
-        await Blog.update({
-            baslik: baslik,
-            aciklama: aciklama,
-            resim: resim,
-            anasayfa: anasayfa,
-            onay: onay,
-            categoryId: categoryid,
-            icerik: icerik
-        }, {
-            where: { id: blogid }
-        });
+            if (blog) {
 
-        res.redirect("/admin/blogs?action=edit&blogid=" + blogid + "&type=blog");
+                console.log("\n\n\n\n" + categoryIds + "\n\n\n\n");
+
+                blog.baslik = baslik,
+                blog.aciklama = aciklama,
+                blog.resim = resim,
+                blog.anasayfa = anasayfa,
+                blog.onay = onay,
+                blog.icerik = icerik
+
+                if (categoryIds == undefined) {
+                    await blog.removeCategories(blog.categories);
+                }
+                else {
+                    await blog.removeCategories(blog.categories);
+                    const selectedCategories = await Category.findAll({
+                        where: {
+                            id: {
+                                [Op.in]: categoryIds
+                            }
+                        }
+                    });
+                    await blog.addCategories(selectedCategories);
+                }
+
+                await blog.save();
+                res.redirect("/admin/blogs?action=edit&blogid=" + blogid + "&type=blog");
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     catch (error) {
         console.log(error);

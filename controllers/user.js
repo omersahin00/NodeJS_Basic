@@ -6,7 +6,7 @@ exports.blog_by_category = async function(req, res) {
     try {
         const categoryId = req.params.categoryId;
         const blogs = await Blog.findAll({
-            where: {categoryId: categoryId}
+            where: { categoryId: categoryId }
         });
         const categories = await Category.findAll();
         
