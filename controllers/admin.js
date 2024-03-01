@@ -78,9 +78,18 @@ exports.post_blog_create = async function(req, res){
 exports.get_blog_edit = async function(req, res){
     const blogid = req.params.blogid;
     try {
+        const blog = await Blog.findOne({
+            where: {
+                id: blogid
+            },
+            include: {
+                model: Category,
+                attributes: ["id"]
+            }
+        });
         const categories = await Category.findAll();
-        const blog = await Blog.findByPk(blogid);
-        if (blog) {
+
+        if (blog && categories) {
             blog.blogid = blog.id;
             res.render("admin/blog-edit", {
                 title: "Blog Edit",
