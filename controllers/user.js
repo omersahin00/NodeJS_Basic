@@ -6,15 +6,21 @@ exports.blog_by_category = async function(req, res) {
     try {
         const categoryId = req.params.categoryId;
         const blogs = await Blog.findAll({
-            where: { categoryId: categoryId }
+            where: {
+                onay: true
+            },
+            include: {
+                model: Category,
+                where: { id: categoryId }
+            }
         });
         const categories = await Category.findAll();
         
-        if (blogs) {
-            id = parseInt(categoryId);
+        if (blogs && categories) {            
+            id = parseInt(categoryId);           
             res.render("users/blogs", {
                 selectedCategory: id,
-                title: categories[--id].title,
+                title: categories[--id].name,
                 blogs: blogs,
                 categories: categories,
             });

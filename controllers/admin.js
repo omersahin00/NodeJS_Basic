@@ -53,21 +53,32 @@ exports.post_blog_create = async function(req, res){
     const baslik = req.body.baslik;
     const aciklama = req.body.aciklama;
     const resim = req.file.filename;
-    const categoryId = req.body.kategori;
+    // const categoryId = req.body.kategori;
     const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
     const onay = req.body.onay == "on" ? 1 : 0;
     const icerik = req.body.icerik;
 
+    const categoryIds = req.body.categories;
+    
     try {
-        await Blog.create({
+        const newBlog = await Blog.create({
             baslik: baslik,
             aciklama: aciklama,
             resim: resim,
             anasayfa: anasayfa,
             onay: onay,
-            categoryId: categoryId,
             icerik: icerik
         });
+
+        const selectedCategories = await Category.findAll({
+            where: {
+                id: {
+                    [Op.in]: categoryIds
+                }
+            }
+        });
+        newBlog.addCategories(selectedCategories);
+        
         res.redirect("/admin/blogs?action=create&type=blog");
     }
     catch (error) {
@@ -142,9 +153,6 @@ exports.post_blog_edit = async function(req, res){
             });
 
             if (blog) {
-
-                console.log("\n\n\n\n" + categoryIds + "\n\n\n\n");
-
                 blog.baslik = baslik,
                 blog.aciklama = aciklama,
                 blog.resim = resim,
