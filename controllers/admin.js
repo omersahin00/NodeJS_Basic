@@ -2,6 +2,7 @@ const Blog = require("../models/blog");
 const Category = require("../models/category");
 const fs = require("fs");
 const { Op } = require("sequelize");
+const sequelize = require("../data/db");
 
 exports.get_blog_delete = async function(req, res){
     try {
@@ -244,6 +245,14 @@ exports.post_category_delete = async function(req, res){
     catch (error) {
         console.log(error);
     }
+}
+
+exports.post_category_remove = async function(req, res){
+    const blogid = req.body.blogid;
+    const categoryid = req.body.categoryid;
+    
+    await sequelize.query(`delete from blogCategories where blogId = ${blogid} and categoryId = ${categoryid}`);
+    res.redirect("/admin/category/" + categoryid);
 }
 
 exports.get_category_create = async function(req, res){

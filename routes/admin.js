@@ -4,7 +4,6 @@ const imageUpload = require("../helpers/image-upload");
 
 const adminController = require("../controllers/admin");
 
-
 router.get("/blogs/delete/:blogid", adminController.get_blog_delete);
 
 router.post("/blogs/delete/:blogid", adminController.post_blog_delete);
@@ -23,6 +22,8 @@ router.get("/blogs", adminController.get_blogs);
 router.get("/category/delete/:categoryid", adminController.get_category_delete);
 
 router.post("/category/delete/:categoryid", adminController.post_category_delete);
+
+router.post("/category/remove", adminController.post_category_remove);
 
 router.get("/category/create", adminController.get_category_create);
 
