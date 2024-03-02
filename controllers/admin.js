@@ -53,11 +53,9 @@ exports.post_blog_create = async function(req, res){
     const baslik = req.body.baslik;
     const aciklama = req.body.aciklama;
     const resim = req.file.filename;
-    // const categoryId = req.body.kategori;
     const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
     const onay = req.body.onay == "on" ? 1 : 0;
     const icerik = req.body.icerik;
-
     const categoryIds = req.body.categories;
     
     try {
