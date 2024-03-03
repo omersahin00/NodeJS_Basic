@@ -3,6 +3,8 @@ const Category = require("../models/category");
 const fs = require("fs");
 const { Op } = require("sequelize");
 const sequelize = require("../data/db");
+const slugField = require("../helpers/slugfield");
+
 
 exports.get_blog_delete = async function(req, res){
     try {
@@ -52,6 +54,7 @@ exports.get_blog_create = async function(req, res){
 
 exports.post_blog_create = async function(req, res){
     const baslik = req.body.baslik;
+    const url = slugField(baslik);
     const aciklama = req.body.aciklama;
     const resim = req.file.filename;
     const anasayfa = req.body.anasayfa == "on" ? 1 : 0;
@@ -62,6 +65,7 @@ exports.post_blog_create = async function(req, res){
     try {
         const newBlog = await Blog.create({
             baslik: baslik,
+            url: url,
             aciklama: aciklama,
             resim: resim,
             anasayfa: anasayfa,
@@ -190,7 +194,7 @@ exports.post_blog_edit = async function(req, res){
 exports.get_blogs = async function(req, res){
     try {
         const blogs = await Blog.findAll({
-            attributes: ["id", "resim", "baslik"],
+            attributes: ["id", "resim", "baslik", "url"],
             include: {
                 model: Category,
                 attributes: ["name"]
@@ -318,12 +322,16 @@ exports.get_category_edit = async function(req, res){
 exports.post_categoy_edit = async function(req, res){
     try {
         const categoryid = req.body.categoryid;
+        
         if (categoryid != req.params.categoryid){
             console.log("İşlem gerçekleştirilemedi! \ncategoryid eşleşmedi.");
-            res.redirect("/admin/category-list?action=error");
+            res.redirect("/admin/category?action=error");
         }
         const name = req.body.name;
-        await Category.update({ name: name }, {
+        await Category.update({ 
+            name: name,
+            url: slugField(name)
+        }, {
             where: { id: categoryid }
         });
         res.redirect("/admin/category?action=edit&type=category");

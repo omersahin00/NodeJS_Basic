@@ -4,23 +4,26 @@ const { Op } = require("sequelize");
 
 exports.blog_by_category = async function(req, res) {
     try {
-        const categoryId = req.params.categoryId;
+        const slug = req.params.slug;
+
         const blogs = await Blog.findAll({
             where: {
                 onay: true
             },
             include: {
                 model: Category,
-                where: { id: categoryId }
+                where: { url: slug }
             }
         });
+
         const categories = await Category.findAll();
-        
+        categoryName = categories.find(x => x.url == slug).name;
+
         if (blogs && categories) {            
-            id = parseInt(categoryId);           
+
             res.render("users/blogs", {
-                selectedCategory: id,
-                title: categories[--id].name,
+                selectedCategory: slug,
+                title: categoryName,
                 blogs: blogs,
                 categories: categories,
             });
@@ -34,9 +37,11 @@ exports.blog_by_category = async function(req, res) {
 
 exports.blog_details = async function(req, res){
     try {
-        const blogID = req.params.blogid;
+        const slug = req.params.slug;
         blogs = await Blog.findAll({
-            where: {id: blogID}
+            where: {
+                url: slug
+            }
         });
         const blog = blogs[0];
         if (blog){
