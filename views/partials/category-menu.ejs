@@ -13,7 +13,7 @@
     <% categories.forEach(element => { %>
         <a href="/blogs/category/<%= element.url %>" 
             class="list-group-item list-group-item-action
-            <%= selectedCategory == element.url ? "active" : "" %>"> 
+            <%= selectedCategory == element.url ? "active" : "" %>">
             <%= element.name %> 
         </a>
     <% }); %>

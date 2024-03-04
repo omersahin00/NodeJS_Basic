@@ -2,38 +2,38 @@ const Blog = require("../models/blog");
 const Category = require("../models/category");
 const { Op } = require("sequelize");
 
-exports.blog_by_category = async function(req, res) {
-    try {
-        const slug = req.params.slug;
+// exports.blog_by_category = async function(req, res) {
+//     try {
+//         const slug = req.params.slug;
 
-        const blogs = await Blog.findAll({
-            where: {
-                onay: true
-            },
-            include: {
-                model: Category,
-                where: { url: slug }
-            }
-        });
+//         const blogs = await Blog.findAll({
+//             where: {
+//                 onay: true
+//             },
+//             include: {
+//                 model: Category,
+//                 where: { url: slug }
+//             }
+//         });
 
-        const categories = await Category.findAll();
-        categoryName = categories.find(x => x.url == slug).name;
+//         const categories = await Category.findAll();
+//         categoryName = categories.find(x => x.url == slug).name;
 
-        if (blogs && categories) {            
+//         if (blogs && categories) {            
 
-            res.render("users/blogs", {
-                selectedCategory: slug,
-                title: categoryName,
-                blogs: blogs,
-                categories: categories,
-            });
-        }
-        else res.redirect("/");
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
+//             res.render("users/blogs", {
+//                 selectedCategory: slug,
+//                 title: categoryName,
+//                 blogs: blogs,
+//                 categories: categories,
+//             });
+//         }
+//         else res.redirect("/");
+//     }
+//     catch (error) {
+//         console.log(error);
+//     }
+// }
 
 exports.blog_details = async function(req, res){
     try {
@@ -59,16 +59,23 @@ exports.blog_details = async function(req, res){
 
 exports.blog_list = async function(req, res){
     try {
+        const size = 3;
+        const { page = 0 } = req.query;
+        const slug = req.params.slug;
+
         const blogs = await Blog.findAll({
-            where: { onay: true }
+            where: { onay: true },
+            include: slug ? { model: Category, where: { url: slug } } : null,
+            limit: size,
+            offset: page * size,
         });
         const categories = await Category.findAll();
 
         res.render("users/blogs", {
-            title: "Popüler Kurslar",
+            title: slug ? "Test" : "Populer Kurslar",
             blogs: blogs, 
             categories: categories,
-            selectedCategory: -1
+            selectedCategory: slug ? slug : -1
         });
     }
     catch (error) {

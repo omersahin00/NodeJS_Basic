@@ -50,11 +50,72 @@ async function populate() {
                 anasayfa: true,
                 onay: true,
                 categoryId: 3
+            }, {
+                baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
+                url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
+                aciklama: "Node.js ile sıfırdan ileri seviye dinamik web uygulaması geliştirmeyi öğren.",
+                icerik: "En popüler programlama dili olan Javascript programlama dilini artık Node.js sayesinde server tabanlı bir dil olarak kullanabilirsin.Kurs sonunda sadece Javascript programlama dilini kullanarak Fullstack bir web geliştirici olmak istiyorsan hemen kursa katılmalısın! Üstelik 30 gün iade garantisiyle! Kursumuz piyasadaki en popüler ve en güncel Node.js kursudur.",
+                resim: "4.jpeg",
+                anasayfa: true,
+                onay: true,
+                categoryId: 3
+            }, {
+                baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
+                url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
+                aciklama: "Node.js ile sıfırdan ileri seviye dinamik web uygulaması geliştirmeyi öğren.",
+                icerik: "En popüler programlama dili olan Javascript programlama dilini artık Node.js sayesinde server tabanlı bir dil olarak kullanabilirsin.Kurs sonunda sadece Javascript programlama dilini kullanarak Fullstack bir web geliştirici olmak istiyorsan hemen kursa katılmalısın! Üstelik 30 gün iade garantisiyle! Kursumuz piyasadaki en popüler ve en güncel Node.js kursudur.",
+                resim: "4.jpeg",
+                anasayfa: true,
+                onay: true,
+                categoryId: 3
+            }, {
+                baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
+                url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
+                aciklama: "Node.js ile sıfırdan ileri seviye dinamik web uygulaması geliştirmeyi öğren.",
+                icerik: "En popüler programlama dili olan Javascript programlama dilini artık Node.js sayesinde server tabanlı bir dil olarak kullanabilirsin.Kurs sonunda sadece Javascript programlama dilini kullanarak Fullstack bir web geliştirici olmak istiyorsan hemen kursa katılmalısın! Üstelik 30 gün iade garantisiyle! Kursumuz piyasadaki en popüler ve en güncel Node.js kursudur.",
+                resim: "4.jpeg",
+                anasayfa: true,
+                onay: true,
+                categoryId: 3
+            }, {
+                baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
+                url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
+                aciklama: "Node.js ile sıfırdan ileri seviye dinamik web uygulaması geliştirmeyi öğren.",
+                icerik: "En popüler programlama dili olan Javascript programlama dilini artık Node.js sayesinde server tabanlı bir dil olarak kullanabilirsin.Kurs sonunda sadece Javascript programlama dilini kullanarak Fullstack bir web geliştirici olmak istiyorsan hemen kursa katılmalısın! Üstelik 30 gün iade garantisiyle! Kursumuz piyasadaki en popüler ve en güncel Node.js kursudur.",
+                resim: "4.jpeg",
+                anasayfa: true,
+                onay: true,
+                categoryId: 3
+            }, {
+                baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
+                url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
+                aciklama: "Node.js ile sıfırdan ileri seviye dinamik web uygulaması geliştirmeyi öğren.",
+                icerik: "En popüler programlama dili olan Javascript programlama dilini artık Node.js sayesinde server tabanlı bir dil olarak kullanabilirsin.Kurs sonunda sadece Javascript programlama dilini kullanarak Fullstack bir web geliştirici olmak istiyorsan hemen kursa katılmalısın! Üstelik 30 gün iade garantisiyle! Kursumuz piyasadaki en popüler ve en güncel Node.js kursudur.",
+                resim: "4.jpeg",
+                anasayfa: true,
+                onay: true,
+                categoryId: 3
+            }, {
+                baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
+                url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
+                aciklama: "Node.js ile sıfırdan ileri seviye dinamik web uygulaması geliştirmeyi öğren.",
+                icerik: "En popüler programlama dili olan Javascript programlama dilini artık Node.js sayesinde server tabanlı bir dil olarak kullanabilirsin.Kurs sonunda sadece Javascript programlama dilini kullanarak Fullstack bir web geliştirici olmak istiyorsan hemen kursa katılmalısın! Üstelik 30 gün iade garantisiyle! Kursumuz piyasadaki en popüler ve en güncel Node.js kursudur.",
+                resim: "4.jpeg",
+                anasayfa: true,
+                onay: true,
+                categoryId: 3
             }
         ]);
 
         await categories[0].addBlog(blogs[0]);
         await categories[0].addBlog(blogs[1]);
+        await categories[0].addBlog(blogs[2]);
+        await categories[0].addBlog(blogs[3]);
+        await categories[0].addBlog(blogs[4]);
+        await categories[0].addBlog(blogs[5]);
+        await categories[0].addBlog(blogs[6]);
+        await categories[0].addBlog(blogs[7]);
+        await categories[0].addBlog(blogs[8]);
 
         await categories[1].addBlog(blogs[2]);
         await categories[1].addBlog(blogs[3]);
