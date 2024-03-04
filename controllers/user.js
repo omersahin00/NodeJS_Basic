@@ -63,7 +63,7 @@ exports.blog_list = async function(req, res){
         const { page = 0 } = req.query;
         const slug = req.params.slug;
 
-        const blogs = await Blog.findAll({
+        const { rows, count } = await Blog.findAndCountAll({
             where: { onay: true },
             include: slug ? { model: Category, where: { url: slug } } : null,
             limit: size,
@@ -73,7 +73,10 @@ exports.blog_list = async function(req, res){
 
         res.render("users/blogs", {
             title: slug ? "Test" : "Populer Kurslar",
-            blogs: blogs, 
+            blogs: rows,
+            totalItems: count,
+            totalPages: Math.ceil(count / size),
+            currentPage: page,
             categories: categories,
             selectedCategory: slug ? slug : -1
         });
@@ -85,7 +88,7 @@ exports.blog_list = async function(req, res){
 
 exports.index = async function(req, res){
     try {
-        const blogs = await Blog.findAll({
+        const { rows, count } = await Blog.findAndCountAll({
             where: { 
                 [Op.and]: [
                     { anasayfa: true },
@@ -98,7 +101,10 @@ exports.index = async function(req, res){
 
         res.render("users/index", {
             title: "Tüm Kurslar",
-            blogs: blogs,
+            blogs: rows,
+            totalItems: count,
+            totalPages: 1,
+            currentPage: 0,
             categories: categories,
             selectedCategory: 0
         });
