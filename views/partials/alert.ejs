@@ -1,45 +1,62 @@
-<% if (action != "undefined" && action == "error"){ %>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <% if (type == "conflict") { %>
-            <strong> Girdiğiniz bilgiler mevcut. Başka bir değer giriniz. </strong>
-        <% } else { %>
-            <strong>Bir hata oluştu. İşlem gerçekleştirilemedi.</strong>
-        <% } %>
-        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
+<% try { %>
+    <% if (action != undefined && action == "error"){ %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <% if (type == "conflict") { %>
+                <strong> Girdiğiniz bilgiler mevcut. Başka bir değer giriniz. </strong>
+            <% } else { %>
+                <strong>Bir hata oluştu. İşlem gerçekleştirilemedi.</strong>
+            <% } %>
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+<% } catch {} %>
 
-<% if (action != "undefined" && action == "create"){ %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <% if (type == "blog") { %>
-            <strong>Blog oluşturuldu!</strong> 
-        <% } else if (type == "category") { %>
-            <strong>Kategori oluşturuldu!</strong> 
-        <% } %>
-        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
+<% try { %>
+    <% if (action != undefined && action == "create"){ %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <% if (type == "blog") { %>
+                <strong>Blog oluşturuldu!</strong> 
+            <% } else if (type == "category") { %>
+                <strong>Kategori oluşturuldu!</strong> 
+            <% } %>
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+<% } catch {} %>
 
-<% if (action != "undefined" && action == "edit"){ %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <% if (type == "blog") { %>
-            <strong>Blog güncellendi!</strong> 
-        <% } else if (type == "category") { %>
-            <strong>Kategori güncellendi!</strong> 
-        <% } %>
-        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
+<% try { %>
+    <% if (action != undefined && action == "edit"){ %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <% if (type == "blog") { %>
+                <strong>Blog güncellendi!</strong> 
+            <% } else if (type == "category") { %>
+                <strong>Kategori güncellendi!</strong> 
+            <% } %>
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+<% } catch {} %>
 
-<% if (action != "undefined" && action == "delete"){ %>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <% if (type == "blog") { %>
-            <strong>Blog silindi!</strong> 
-        <% } else if (type == "category") { %>
-            <strong>Kategori silindi!</strong> 
-        <% } %>
-        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
+<% try { %>
+    <% if (action != undefined && action == "delete"){ %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <% if (type == "blog") { %>
+                <strong>Blog silindi!</strong> 
+            <% } else if (type == "category") { %>
+                <strong>Kategori silindi!</strong> 
+            <% } %>
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+<% } catch {} %>
 
 
+
+<% try { %>
+    <% if (message != undefined){ %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong> <%= message %> </strong> 
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+<% } catch {} %>

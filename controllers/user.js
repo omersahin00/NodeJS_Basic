@@ -71,8 +71,10 @@ exports.blog_list = async function(req, res){
         });
         const categories = await Category.findAll();
 
+        const activeCategory = categories.find(x => x.url == slug);
+
         res.render("users/blogs", {
-            title: slug ? "Test" : "Populer Kurslar",
+            title: activeCategory ? activeCategory.name : "Populer Kurslar",
             blogs: rows,
             totalItems: count,
             totalPages: Math.ceil(count / size),
