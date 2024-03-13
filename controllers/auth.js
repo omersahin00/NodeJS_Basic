@@ -1,6 +1,9 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
+
+
+
 exports.get_reqister = async function(req, res) {
     try {
         return res.render("auth/register", {
