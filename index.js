@@ -1,12 +1,14 @@
 const express = require("express");
-const app = express(); 
+const app = express();
 const path = require("path");
+var cookieParser = require("cookie-parser");
 
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
 const authRouter = require("./routes/auth");
 
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.set("view engine", "ejs");
 console.log(app.get("view engine"));
