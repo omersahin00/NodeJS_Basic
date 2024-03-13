@@ -33,7 +33,6 @@ exports.post_register = async function(req, res) {
     }
 }
 
-
 exports.get_login = async function(req, res) {
     try {
         return res.render("auth/login", {
@@ -83,10 +82,9 @@ exports.post_login = async function(req, res) {
     }
 }
 
-
 exports.get_logout = async function(req, res) {
     try {
-        res.clearCookie("isAuth");
+        await req.session.destroy();
         return res.redirect("/account/login");
     }
     catch (error) {

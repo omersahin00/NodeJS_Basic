@@ -81,7 +81,7 @@ exports.blog_list = async function(req, res){
             currentPage: page,
             categories: categories,
             selectedCategory: slug ? slug : -1,
-            isAuth: req.cookies.isAuth
+            isAuth: req.session.isAuth
         });
     }
     catch (error) {
