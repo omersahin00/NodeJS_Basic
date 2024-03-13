@@ -1,9 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
-
-
-
 exports.get_reqister = async function(req, res) {
     try {
         return res.render("auth/register", {
@@ -71,7 +68,8 @@ exports.post_login = async function(req, res) {
 
         if (match) {
             // Login olduk.
-            res.cookie("isAuth", 1);
+            //res.cookie("isAuth", 1);
+            req.session.isAuth = 1;
             return res.redirect("/");
         }
         

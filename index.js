@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-var cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
@@ -9,6 +10,11 @@ const authRouter = require("./routes/auth");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+    secret: "b65ecefa-9f3c-4630-b66e-6e851d64d798",
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.set("view engine", "ejs");
 console.log(app.get("view engine"));

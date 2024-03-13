@@ -110,7 +110,7 @@ exports.index = async function(req, res){
             currentPage: 0,
             categories: categories,
             selectedCategory: 0,
-            isAuth: req.cookies.isAuth
+            isAuth: req.session.isAuth
         });
     }
     catch (error) {
