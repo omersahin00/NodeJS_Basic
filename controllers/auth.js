@@ -70,7 +70,8 @@ exports.post_login = async function(req, res) {
             //res.cookie("isAuth", 1);
             req.session.isAuth = 1;
             req.session.fullname = user.fullname;
-            return res.redirect("/");
+            const url = req.query.returnUrl || "/";
+            return res.redirect(url);
         }
         
         return res.render("auth/login", {
