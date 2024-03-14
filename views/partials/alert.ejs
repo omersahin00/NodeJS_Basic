@@ -54,8 +54,8 @@
 
 <% try { %>
     <% if (message != undefined){ %>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong> <%= message %> </strong> 
+        <div class="alert alert-<%= message.type %> alert-dismissible fade show" role="alert">
+            <strong> <%= message.text %> </strong> 
             <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
         </div>
     <% } %>
