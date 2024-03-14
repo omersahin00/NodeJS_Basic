@@ -69,6 +69,7 @@ exports.post_login = async function(req, res) {
             // Login olduk.
             //res.cookie("isAuth", 1);
             req.session.isAuth = 1;
+            req.session.fullname = user.fullname;
             return res.redirect("/");
         }
         
@@ -85,6 +86,7 @@ exports.post_login = async function(req, res) {
 exports.get_logout = async function(req, res) {
     try {
         await req.session.destroy();
+        res.clearCookie("connect.sid");
         return res.redirect("/account/login");
     }
     catch (error) {

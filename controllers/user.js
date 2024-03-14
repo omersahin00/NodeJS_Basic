@@ -80,8 +80,7 @@ exports.blog_list = async function(req, res){
             totalPages: Math.ceil(count / size),
             currentPage: page,
             categories: categories,
-            selectedCategory: slug ? slug : -1,
-            isAuth: req.session.isAuth
+            selectedCategory: slug ? slug : -1
         });
     }
     catch (error) {
@@ -109,8 +108,7 @@ exports.index = async function(req, res){
             totalPages: 1,
             currentPage: 0,
             categories: categories,
-            selectedCategory: 0,
-            isAuth: req.session.isAuth
+            selectedCategory: 0
         });
     }
     catch (error) {

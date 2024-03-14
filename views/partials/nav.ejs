@@ -6,7 +6,7 @@
                 <a href="/blogs" class="nav-link">Popüler Kurslar</a>
             </li>
 
-            <% if (typeof isAuth != "undefined" && isAuth == 1) { %>
+            <% if (isAuth) { %>
                 <li class="nav-item">
                     <a href="/Admin/blogs/" class="nav-link">Admin Panel</a>
                 </li> 
@@ -14,7 +14,10 @@
         </ul>
 
         <ul class="navbar-nav ms-auto">
-            <% if (typeof isAuth != "undefined" && isAuth == 1) { %>
+            <% if (isAuth) { %>
+                <li class="nav-item">
+                    <a href="/account/index" class="nav-link"><%= fullname %></a> 
+                </li>
                 <li class="nav-item">
                     <a href="/account/Logout" class="nav-link">Logout</a>
                 </li>
