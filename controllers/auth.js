@@ -127,10 +127,8 @@ exports.post_user_delete = async function(req, res) {
         const email = req.session.email;
         if (!email) {
             // oturum bulunamadı
-            return res.render("auth/login", {
-                title: "Login",
-                message: Message("Oturumunuz onaylanmadı!", "danger")
-            });
+            console.log("\n\n" + "Kullanıcı oturumu algılanamadı. Tekrar giriş yapmaya yönelndiriliyor." + "\n\n");
+            return res.redirect("/account/logout");
         }
         
         const nowUser = await User.findOne({ where: { email: email }});
