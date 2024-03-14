@@ -78,6 +78,7 @@ exports.post_login = async function(req, res) {
             //res.cookie("isAuth", 1);
             req.session.isAuth = 1;
             req.session.fullname = user.fullname;
+            req.session.email = user.email;
             const url = req.query.returnUrl || "/";
             return res.redirect(url);
         }
@@ -97,6 +98,60 @@ exports.get_logout = async function(req, res) {
         await req.session.destroy();
         res.clearCookie("connect.sid");
         return res.redirect("/account/login");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.get_user_list = async function(req, res) {
+    const message = req.session.message;
+    delete req.session.message;
+    try {
+        const users = await User.findAll();
+        return res.render("auth/user-list", {
+            title: "User List",
+            users: users,
+            message: message
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_user_delete = async function(req, res) {
+    const id = req.params.id;
+
+    try {
+        const email = req.session.email;
+        if (!email) {
+            // oturum bulunamadı
+            return res.render("auth/login", {
+                title: "Login",
+                message: Message("Oturumunuz onaylanmadı!", "danger")
+            });
+        }
+        
+        const nowUser = await User.findOne({ where: { email: email }});
+        if (nowUser.id == id) {
+            // kendisini silmeye çalıştı
+            req.session.message = Message("Kendinizi silemezsiniz!", "warning");
+            return res.redirect("/account/user-list");
+        }
+
+        // silme işlemi gerçekleştirilecek:
+        const deletedUserEmail = await User.findOne({
+            where: { id: id }, 
+            attributes: [ "email" ]
+        });
+
+        await User.destroy({
+            where: { id: id }
+        });
+
+        req.session.message = Message(`Kullanıcı silindi (${deletedUserEmail.email})`, "success")
+        return res.redirect("/account/user-list");
     }
     catch (error) {
         console.log(error);
