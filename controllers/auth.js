@@ -120,8 +120,24 @@ exports.get_user_list = async function(req, res) {
     }
 }
 
+exports.get_user_delete = async function(req, res) {
+    try {
+        // console.log("\n\n\n" + "Buraya girdi" + "\n\n\n");
+        const userid = req.params.id;
+        const user = await User.findOne({ where: { id: userid }});
+
+        return res.render("auth/user-delete", {
+            title: "User Delete",
+            user: user
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
 exports.post_user_delete = async function(req, res) {
-    const id = req.params.id;
+    const id = req.body.userid;
 
     try {
         const email = req.session.email;

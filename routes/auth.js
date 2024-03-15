@@ -16,7 +16,9 @@ router.get("/logout", authController.get_logout);
 
 router.get("/user-list", isAuth, authController.get_user_list);
 
-router.post("/delete/:id", isAuth, authController.post_user_delete);
+router.get("/delete/:id", isAuth, authController.get_user_delete);
+
+router.post("/delete", isAuth, authController.post_user_delete);
 
 
 module.exports = router;

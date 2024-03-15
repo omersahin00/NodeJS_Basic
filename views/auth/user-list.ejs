@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                         <% users.forEach(user => { %>
-                            <form action="/account/delete/<%= user.id %>" method="post">
+                            <form action="/account/delete/<%= user.id %>" method="get">
                                 <tr>
                                     <td> #<%= user.id %> </td>
                                     <td>
@@ -40,7 +40,7 @@
                                         <%= user.password %>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </td>
                                 </tr>
                             </form>
