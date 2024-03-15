@@ -45,7 +45,8 @@ exports.get_login = async function(req, res) {
     try {
         return res.render("auth/login", {
             title: "Login",
-            message: message
+            message: message,
+            csrfToken: req.csrfToken()
         });
     }
     catch (error) {

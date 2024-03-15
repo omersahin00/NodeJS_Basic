@@ -8,6 +8,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const csurf = require("csurf");
 
 // Routes:
 const userRouter = require("./routes/user");
@@ -44,6 +45,7 @@ app.use(session({
 }));
 
 app.use(locals);
+app.use(csurf());
 
 app.use("/libs", express.static(path.join(__dirname, "node_modules"))); // libs -> dosya yolu verilirken node_modules yerine kullanılacak olan ifade (optional)
 app.use("/static", express.static(path.join(__dirname, "public"))); // static -> public yerine kullanılacak olan ifade (optional)

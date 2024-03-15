@@ -15,6 +15,8 @@
                 <%- include('../partials/alert') %>
                 
                 <form method="post" action="">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
                     <div class="row mb-3">
                         <label for="baslik" class="col-sm-2 col-form-label">Title</label>
                         <div class="col-sm-8">
