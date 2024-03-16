@@ -17,8 +17,11 @@ router.get("/logout", csrf, authController.get_logout);
 
 router.get("/user-list", isAuth, authController.get_user_list);
 
-router.get("/delete/:id", csrf, isAuth, authController.get_user_delete);
+router.get("/delete/:id",isAuth, csrf, authController.get_user_delete);
 router.post("/delete", isAuth, authController.post_user_delete);
+
+router.get("/reset-password", csrf, authController.get_reset_password);
+router.post("/reset-password", csrf, authController.post_reset_password);
 
 
 module.exports = router;

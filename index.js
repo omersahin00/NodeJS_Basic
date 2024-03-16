@@ -2,13 +2,13 @@
 const express = require("express");
 const app = express();
 
-// Node Modules:
-const path = require("path");
-
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const csurf = require("csurf");
+
+// Node Modules:
+const path = require("path");
 
 // Routes:
 const userRouter = require("./routes/user");
@@ -68,8 +68,8 @@ Category.belongsToMany(Blog, { through: "blogCategories" });
 
 
 (async () => {
-    // await sequelize.sync({ alter: true });
-    // await dummyData();
+    await sequelize.sync({ alter: true });
+    await dummyData();
 })();
 
 

@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const Message = require("../helpers/message-manager");
 const emailService = require("../helpers/send-mail");
 const config = require("../config");
+const crypto = require("crypto");
+const { error } = require("console");
 
 
 exports.get_reqister = async function(req, res) {
@@ -178,6 +180,61 @@ exports.post_user_delete = async function(req, res) {
 
         req.session.message = Message(`Kullanıcı silindi (${deletedUserEmail.email})`, "success")
         return res.redirect("/account/user-list");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.get_reset_password = async function(req, res) {
+    const message = req.session.message;
+    delete req.session.message;
+    try {
+        return res.render("auth/reset-password", {
+            title: "Reset Password",
+            message: message
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_reset_password = async function(req, res) {
+    const email = req.body.email;
+
+    try {
+        const user = await User.findOne({ where: { email: email }});
+        
+        if (!user){
+            req.session.message = Message("Email bulunamadı!", "danger");
+            return res.redirect("reset-password");
+        }
+
+        var token = crypto.randomBytes(32).toString("hex");
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + (1000 * 60 * 60);
+        await user.save();
+
+        await emailService.sendMail({
+            from: config.email.from,
+            to: email,
+            subject: "Reset Password",
+            html: `
+                <p>Parolanızı güncellemek için aşağıdak linke tıklayın:</p>
+                <p>
+                    <a href="http:127:0.0.1:3000/account/reset-password/${token}">Parola Sıfırla</a>
+                </p>
+            `
+        })
+        .then(() => {
+            req.session.message = Message("Parola sıfırlama linki e-postanıza gönderildi.", "success");
+            return res.redirect("login");
+        })
+        .catch((error) => {
+            req.session.message = Message("E-posta gönderilirken bir hatayla karşılaşıldı!", "danger");
+            return res.redirect("login");
+        });       
     }
     catch (error) {
         console.log(error);
