@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const authController = require("../controllers/auth");
 
-// Middleware:
+// Middlewares:
 const isAuth = require("../middlewares/auth");
 const csrf = require("../middlewares/csrf");
 
-const authController = require("../controllers/auth");
-
+// Routers:
 router.get("/register", csrf, authController.get_reqister);
 router.post("/register", authController.post_register);
 

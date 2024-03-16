@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const imageUpload = require("../helpers/image-upload");
 
+// Middlewares:
 const isAuth = require("../middlewares/auth");
 const csrf = require("../middlewares/csrf");
 
 const adminController = require("../controllers/admin");
 
-
+// Routers:
 router.get("/blogs/delete/:blogid", isAuth, csrf, adminController.get_blog_delete);
 
 router.post("/blogs/delete/:blogid", isAuth, adminController.post_blog_delete);

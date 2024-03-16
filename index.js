@@ -28,6 +28,7 @@ console.log(app.get("view engine"));
 const Blog = require("./models/blog");
 const Category = require("./models/category");
 const User = require("./models/user");
+const Role = require("./models/role");
 
 // Middleware:
 app.use(express.urlencoded({ extended: false }));
@@ -55,7 +56,6 @@ app.use("/account", authRouter);
 app.use(userRouter);
 
 
-
 Blog.belongsTo(User, {
     foreignKey: {
         allowNull: true
@@ -65,6 +65,9 @@ User.hasMany(Blog);
 
 Blog.belongsToMany(Category, { through: "blogCategories" });
 Category.belongsToMany(Blog, { through: "blogCategories" });
+
+Role.belongsToMany(User, { through: "userRoles" });
+User.belongsToMany(Role, { through: "userRoles" });
 
 
 (async () => {
