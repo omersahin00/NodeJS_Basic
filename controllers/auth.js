@@ -4,6 +4,7 @@ const Message = require("../helpers/message-manager");
 const emailService = require("../helpers/send-mail");
 const config = require("../config");
 
+
 exports.get_reqister = async function(req, res) {
     try {
         return res.render("auth/register", {

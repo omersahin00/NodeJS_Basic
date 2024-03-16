@@ -11,7 +11,7 @@ router.get("/register", csrf, authController.get_reqister);
 router.post("/register", authController.post_register);
 
 router.get("/login", csrf, authController.get_login);
-router.post("/login", authController.post_login);
+router.post("/login", csrf, authController.post_login);
 
 router.get("/logout", csrf, authController.get_logout);
 
