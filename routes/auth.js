@@ -23,5 +23,8 @@ router.post("/delete", isAuth, authController.post_user_delete);
 router.get("/reset-password", csrf, authController.get_reset_password);
 router.post("/reset-password", csrf, authController.post_reset_password);
 
+router.get("/new-password/:token", csrf, authController.get_new_password);
+router.post("/new-password", csrf, authController.post_new_password);
+
 
 module.exports = router;
