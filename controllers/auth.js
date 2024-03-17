@@ -1,12 +1,12 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const Message = require("../helpers/message-manager");
+
 const emailService = require("../helpers/send-mail");
 const config = require("../config");
 const crypto = require("crypto");
 const { Op } = require("sequelize");
 const messageManager = require("../helpers/message-manager");
-const { measureMemory } = require("vm");
 
 
 exports.get_reqister = async function(req, res) {
@@ -114,81 +114,6 @@ exports.get_logout = async function(req, res) {
         await req.session.destroy();
         res.clearCookie("connect.sid");
         return res.redirect("/account/login");
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-exports.get_user_list = async function(req, res) {
-    const message = req.session.message;
-    delete req.session.message;
-    try {
-        const users = await User.findAll();
-        return res.render("auth/user-list", {
-            title: "User List",
-            users: users,
-            message: message
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-exports.get_user_delete = async function(req, res) {
-    try {
-        // console.log("\n\n\n" + "Buraya girdi" + "\n\n\n");
-        const userid = req.params.id;
-        const user = await User.findOne({ where: { id: userid }});
-
-        return res.render("auth/user-delete", {
-            title: "User Delete",
-            user: user
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-exports.post_user_delete = async function(req, res) {
-    const id = req.body.userid;
-
-    try {
-        const email = req.session.email;
-        if (!email) {
-            // oturum bulunamadı
-            console.log("\n\n" + "Kullanıcı oturumu algılanamadı. Tekrar giriş yapmaya yönelndiriliyor." + "\n\n");
-            return res.redirect("/account/logout");
-        }
-        
-        const nowUser = await User.findOne({ where: { email: email }});
-        if (nowUser.id == id) {
-            // kendisini silmeye çalıştı
-            req.session.message = Message("Kendinizi silemezsiniz!", "warning");
-            return res.redirect("/account/user-list");
-        }
-
-        // silme işlemi gerçekleştirilecek:
-        const deletedUser = await User.findOne({
-            where: { id: id }, 
-            attributes: [ "email" ]
-        });
-
-        await User.destroy({
-            where: { id: id }
-        });
-
-        emailService.sendMail({
-            from: config.email.from,
-            to: deletedUser.email,
-            subject: "Hesabınız silindi.",
-            text: "Hesabınız tamamen silinmiştir."
-        });        
-
-        req.session.message = Message(`Kullanıcı silindi (${deletedUser.email})`, "success")
-        return res.redirect("/account/user-list");
     }
     catch (error) {
         console.log(error);

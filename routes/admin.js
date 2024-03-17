@@ -49,7 +49,14 @@ router.get("/roles/:roleid", isAuth, csrf, adminController.get_role_edit);
 
 router.post("/roles/:roleid", isAuth, csrf, adminController.post_role_edit);
 
+router.get("/user-list", isAuth, adminController.get_user_list);
 
+router.get("/delete/:id",isAuth, csrf, adminController.get_user_delete);
 
+router.post("/delete", isAuth, adminController.post_user_delete);
+
+router.get("/user-edit/:id", isAuth, csrf, adminController.get_user_edit);
+
+router.post("/user-edit", isAuth, csrf, adminController.post_user_edit);
 
 module.exports = router;

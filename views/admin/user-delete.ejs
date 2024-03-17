@@ -14,12 +14,12 @@
                 <p class="mb-3">
                     <b><%= user.fullname %></b> isimli kullanıcıyı silmek istiyor musunuz?
                 </p>
-                <form action="/account/delete" method="post">
+                <form action="/admin/delete" method="post">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
                     <input type="hidden" name="userid" value="<%= user.id %>">
                     <button type="submit" class="btn btn-danger">Evet</button>
-                    <a href="/account/user-list" class="btn btn-primary">Vazgeç</a>
+                    <a href="/admin/user-list" class="btn btn-primary">Vazgeç</a>
                 </form>
             </div>
         </div>

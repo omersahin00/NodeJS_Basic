@@ -5,8 +5,12 @@ const User = require("../models/user");
 
 const fs = require("fs");
 const sequelize = require("../data/db");
+const config = require("../config");
 const { Op } = require("sequelize");
 const slugField = require("../helpers/slugfield");
+const emailService = require("../helpers/send-mail");
+const Message = require("../helpers/message-manager");
+const { type } = require("os");
 
 
 exports.get_blog_delete = async function(req, res){
@@ -48,7 +52,7 @@ exports.get_blog_create = async function(req, res){
         res.render("admin/blog-create", {
             title: "Add Blog",
             categories: categories
-        });    
+        });
     }
     catch (error) {
         console.log(error);
@@ -435,16 +439,171 @@ exports.post_role_remove = async function(req, res) {
     const roleid = req.body.roleid;
     
     try {
-        // await userRoles.destroy({
-        //     where: {
-        //         roleId: roleid,
-        //         userId: userid
-        //     }
-        // });
         await sequelize.query(`delete from userRoles where userId = ${userid} and roleId = ${roleid}`);
         return res.redirect("/admin/roles/" + roleid);
     }
     catch (error) {
+        console.log(error);
+    }
+}
+
+exports.get_user_list = async function(req, res) {
+    const message = req.session.message;
+    delete req.session.message;
+    try {
+        const users = await User.findAll({
+            include: { model: Role }
+        });
+        return res.render("admin/user-list", {
+            title: "User List",
+            users: users,
+            message: message
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.get_user_delete = async function(req, res) {
+    try {
+        // console.log("\n\n\n" + "Buraya girdi" + "\n\n\n");
+        const userid = req.params.id;
+        const user = await User.findOne({ where: { id: userid }});
+
+        return res.render("admin/user-delete", {
+            title: "User Delete",
+            user: user
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_user_delete = async function(req, res) {
+    const id = req.body.userid;
+
+    try {
+        const email = req.session.email;
+        if (!email) {
+            // oturum bulunamadı
+            console.log("\n\n" + "Kullanıcı oturumu algılanamadı. Tekrar giriş yapmaya yönelndiriliyor." + "\n\n");
+            return res.redirect("/account/logout");
+        }
+        
+        const nowUser = await User.findOne({ where: { email: email }});
+        if (nowUser.id == id) {
+            // kendisini silmeye çalıştı
+            req.session.message = Message("Kendinizi silemezsiniz!", "warning");
+            return res.redirect("/admin/user-list");
+        }
+
+        // silme işlemi gerçekleştirilecek:
+        const deletedUser = await User.findOne({
+            where: { id: id }, 
+            attributes: [ "email" ]
+        });
+
+        await User.destroy({
+            where: { id: id }
+        });
+
+        emailService.sendMail({
+            from: config.email.from,
+            to: deletedUser.email,
+            subject: "Hesabınız silindi.",
+            text: "Hesabınız tamamen silinmiştir."
+        });        
+
+        req.session.message = Message(`Kullanıcı silindi (${deletedUser.email})`, "success")
+        return res.redirect("/admin/user-list");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.get_user_edit = async function(req, res) {
+    const message = req.session.message;
+    delete req.session.message;
+
+    const userid = req.params.id;
+
+    try {
+        // const user = await User.findByPk(userid);
+        const user = await User.findOne({
+            where: { id: userid },
+            include: { model: Role, attributes: ["id"] }
+        });
+
+        const roles = await Role.findAll();
+
+        if (!user || !roles) {
+            req.session.message = Message("Bilgiler yüklenirken bir hata oluştu!", "danger");
+            return res.redirect("/admin/user-list");
+        }
+
+        return res.render("admin/user-edit", {
+            title: "User Edit",
+            user: user,
+            roles: roles
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_user_edit = async function(req, res) {
+    const userid = req.body.userid;
+    const fullname = req.body.fullname
+    const email = req.body.email;
+    var roleIds = [];
+
+    if (typeof req.body.roles == Object){
+        roleIds = req.body.roles;
+    }
+    else {
+        console.log("\n\n" + "Buraya girdi" + "\n\n");
+        for (let i = 0; i < req.body.roles.length; i++) {
+            roleIds[i] = req.body.roles[i];
+        }
+    }
+    
+    try {
+        const user = await User.findOne({
+            where: { id :userid },  
+            include: { model: Role, attributes: ["id"] }
+        });
+
+        if (!user) {
+            req.session.message = Message("Bilgiler yüklenirken bir hata oluştu!", "danger");
+            return res.redirect("/admin/user-list");
+        }
+
+        user.fullname = fullname;
+        user.email = email;
+
+        if (roleIds == undefined) {
+            await user.removeRoles(user.roles);
+        } 
+        else {
+            await user.removeRoles(user.roles);
+            const selectedRoles = await Role.findAll({
+                where: {
+                    id: {
+                        [Op.in]: roleIds
+                    }
+                }
+            });
+            await user.addRoles(selectedRoles);
+        }
+        
+        await user.save();
+        return res.redirect("/admin/user-list");
+    }
+    catch(error) {
         console.log(error);
     }
 }
