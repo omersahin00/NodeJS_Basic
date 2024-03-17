@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/head")  %> 
+</head>
+<body>
+    
+    <%- include("../partials/nav")  %> 
+
+    <%- include('../partials/navAdmin') %>
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12 mt-3">
+
+                <form method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <input type="hidden" name="roleid" value="<%= role.id %>">
+
+                    <div class="row mb-3">
+                        <label for="baslik" class="col-sm-2 col-form-label"> Role Name: </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="rolename" name="rolename" value="<%= role.rolename %>">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-8 offset-sm-2">
+                            <button type="submit" class="btn btn-primary">Güncelle</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <br> <br> <br>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-8">
+                        <p> Role Ait Kullanıcı Adedi: <strong><%= role.user_count %></strong></p>
+                    </div>
+                </div>
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">id</th>
+                            <th style="width: 400px;">User Name</th>
+                            <th>Email</th>
+                            <th style="width: 155px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                            <tr>
+                                <td> #<%= user.id %> </td>
+                                <td>
+                                    <%= user.fullname %>
+                                </td>
+                                <td>
+                                    <%= user.email %>
+                                </td>
+                                <td>
+                                    
+                                    <a href="/admin/roles/<%= role.id %>" class="btn btn-sm btn-primary">Edit</a>
+
+                                    <form style="display: inline-block;" action="/admin/roles/remove" method="post">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <input type="hidden" name="roleid" value="<%= role.id %>">
+                                        <input type="hidden" name="userid" value="<%= user.id %>">
+                                        <button class="btn btn-sm btn-danger" type="submit">Rolü Kaldır</button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
+
+

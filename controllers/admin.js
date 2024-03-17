@@ -1,8 +1,11 @@
 const Blog = require("../models/blog");
 const Category = require("../models/category");
+const Role = require("../models/role");
+const User = require("../models/user");
+
 const fs = require("fs");
-const { Op } = require("sequelize");
 const sequelize = require("../data/db");
+const { Op } = require("sequelize");
 const slugField = require("../helpers/slugfield");
 
 
@@ -356,6 +359,90 @@ exports.get_categories = async function(req, res){
             });
         }
         else res.redirect("/admin/category?action=error");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+
+exports.get_roles = async function(req, res) {
+    try {
+        const roles = await Role.findAll({
+            attributes: {
+                include: [
+                    'role.id', 
+                    'role.rolename', 
+                    [sequelize.fn('COUNT', sequelize.col('users.id')), 'user_count']
+                ]
+            },
+            include: [
+                { model: User, attributes: ['id'] }
+            ],
+            group: ['role.id'],
+            raw: true,
+            includeIgnoreAttributes: false
+        });
+
+        return res.render("admin/role-list", {
+            title: "Role List",
+            roles: roles
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.get_role_edit = async function(req, res) {
+    const roleid = req.params.roleid;
+    try {
+        const role = await Role.findByPk(roleid);
+        const users = await role.getUsers();
+        if (role) {
+            return res.render("admin/role-edit", {
+                title: "Role Edit",
+                role: role,
+                users: users
+            });
+        }
+        return res.redirect("admin/roles");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_role_edit = async function(req, res) {
+    const roleid = req.body.roleid;
+    const rolename = req.body.rolename;
+
+    try {
+        await Role.update({
+            rolename: rolename
+        }, {
+            where: { id: roleid }
+        });
+        return res.redirect("/admin/roles");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_role_remove = async function(req, res) {
+    const userid = req.body.userid;
+    const roleid = req.body.roleid;
+    
+    try {
+        // await userRoles.destroy({
+        //     where: {
+        //         roleId: roleid,
+        //         userId: userid
+        //     }
+        // });
+        await sequelize.query(`delete from userRoles where userId = ${userid} and roleId = ${roleid}`);
+        return res.redirect("/admin/roles/" + roleid);
     }
     catch (error) {
         console.log(error);

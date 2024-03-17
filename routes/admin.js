@@ -41,4 +41,15 @@ router.post("/category/:categoryid", isAuth, adminController.post_categoy_edit);
 router.get("/category", isAuth, adminController.get_categories);
 
 
+router.get("/roles", isAuth, adminController.get_roles);
+
+router.post("/roles/remove", isAuth, adminController.post_role_remove);
+
+router.get("/roles/:roleid", isAuth, csrf, adminController.get_role_edit);
+
+router.post("/roles/:roleid", isAuth, csrf, adminController.post_role_edit);
+
+
+
+
 module.exports = router;
