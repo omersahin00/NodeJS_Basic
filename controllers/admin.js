@@ -10,7 +10,6 @@ const { Op } = require("sequelize");
 const slugField = require("../helpers/slugfield");
 const emailService = require("../helpers/send-mail");
 const Message = require("../helpers/message-manager");
-const { type } = require("os");
 
 
 exports.get_blog_delete = async function(req, res){

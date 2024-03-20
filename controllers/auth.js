@@ -6,7 +6,6 @@ const emailService = require("../helpers/send-mail");
 const config = require("../config");
 const crypto = require("crypto");
 const { Op } = require("sequelize");
-const messageManager = require("../helpers/message-manager");
 
 
 exports.get_reqister = async function(req, res) {
