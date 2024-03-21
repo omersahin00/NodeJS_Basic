@@ -15,8 +15,8 @@ async function populate() {
         const users = await User.bulkCreate([
             { fullname: "Ömer Şahin", email: "omersahin@gmail.com", password: await bcrypt.hash("123", 10)},
             { fullname: "Yusuf Şahin", email: "yusufsahin@gmail.com", password: await bcrypt.hash("qwe", 10)},
-            { fullname: "sadık turan", email: "info@sadikturan.com", password: await bcrypt.hash("135790", 10)},
-            { fullname: "çınar turan", email: "info@cinarturan.com", password: await bcrypt.hash("135790", 10)}
+            { fullname: "sadık turan", email: "info@sadikturan.com", password: await bcrypt.hash("123", 10)},
+            { fullname: "çınar turan", email: "info@cinarturan.com", password: await bcrypt.hash("123", 10)}
         ]);
 
         const roles = await Role.bulkCreate([
@@ -25,7 +25,7 @@ async function populate() {
             { rolename: "guest" },
         ]);
 
-        await users[0].addRole(roles[0]);   
+        await users[0].addRole(roles[0]);
         await users[1].addRole(roles[1]);
         await users[2].addRole(roles[1]);
         await users[3].addRole(roles[2]);
@@ -47,7 +47,7 @@ async function populate() {
                 anasayfa: true,
                 onay: true,
                 categoryId: 1,
-                userId: 1
+                userId: 3
             }, {
                 baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
                 url: slugField("Python ile Sıfırdan İleri Seviye Python Programlama"),
@@ -57,7 +57,7 @@ async function populate() {
                 anasayfa: true,
                 onay: true,
                 categoryId: 1,
-                userId: 1
+                userId: 3
             }, {
                 baslik: "Sıfırdan İleri Seviye Modern Javascript Dersleri ES7+",
                 url: slugField("Sıfırdan İleri Seviye Modern Javascript Dersleri ES7+"),
@@ -67,7 +67,7 @@ async function populate() {
                 anasayfa: true,
                 onay: true,
                 categoryId: 2,
-                userId: 1
+                userId: 3
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -77,7 +77,7 @@ async function populate() {
                 anasayfa: true,
                 onay: true,
                 categoryId: 3,
-                userId: 1
+                userId: 3
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -87,7 +87,7 @@ async function populate() {
                 anasayfa: true,
                 onay: true,
                 categoryId: 3,
-                userId: 1
+                userId: 3
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),

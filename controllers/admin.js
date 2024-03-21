@@ -198,13 +198,24 @@ exports.post_blog_edit = async function(req, res){
 }
 
 exports.get_blogs = async function(req, res){
+    const userId = req.session.userId;
+    const isModerator = req.session.roles.includes("moderator");
+    const isAdmin = req.session.roles.includes("admin");
+
+    console.log("\n\n");
+    console.log(isAdmin);
+    console.log("\n\n");
+    console.log(isModerator);
+    console.log("\n\n");
+
     try {
         const blogs = await Blog.findAll({
             attributes: ["id", "resim", "baslik", "url"],
             include: {
                 model: Category,
                 attributes: ["name"]
-            }
+            },
+            where: isModerator && !isAdmin ? { userId: userId } : null
         });
         
         if (blogs){

@@ -86,14 +86,21 @@ exports.post_login = async function(req, res) {
             });
         }
 
+        // parola kontrolü:
         const match = await bcrypt.compare(password, user.password);
 
         if (match) {
-            // Login olduk.
-            //res.cookie("isAuth", 1);
-            req.session.isAuth = 1;
+            const userRoles = await user.getRoles({
+                attributes: ["rolename"],
+                raw: true
+            });
+
+            req.session.roles = userRoles.map((role) => role["rolename"]);
             req.session.fullname = user.fullname;
+            req.session.userId = user.id;
             req.session.email = user.email;
+            req.session.isAuth = 1;
+
             const url = req.query.returnUrl || "/";
             return res.redirect(url);
         }

@@ -69,9 +69,6 @@ Category.belongsToMany(Blog, { through: "blogCategories" });
 Role.belongsToMany(User, { through: "userRoles" });
 User.belongsToMany(Role, { through: "userRoles" });
 
-// Role.belongsTo(User, { through: "userRoles" });
-// User.belongsTo(Role, { through: "userRoles" });
-
 
 (async () => {
     await sequelize.sync({ force: true });
