@@ -46,7 +46,8 @@ async function populate() {
                 resim: "1.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 1
+                categoryId: 1,
+                userId: 1
             }, {
                 baslik: "Python ile Sıfırdan İleri Seviye Python Programlama",
                 url: slugField("Python ile Sıfırdan İleri Seviye Python Programlama"),
@@ -55,7 +56,8 @@ async function populate() {
                 resim: "2.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 1
+                categoryId: 1,
+                userId: 1
             }, {
                 baslik: "Sıfırdan İleri Seviye Modern Javascript Dersleri ES7+",
                 url: slugField("Sıfırdan İleri Seviye Modern Javascript Dersleri ES7+"),
@@ -64,7 +66,8 @@ async function populate() {
                 resim: "3.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 2
+                categoryId: 2,
+                userId: 1
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -73,7 +76,8 @@ async function populate() {
                 resim: "4.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 3
+                categoryId: 3,
+                userId: 1
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -82,7 +86,8 @@ async function populate() {
                 resim: "4.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 3
+                categoryId: 3,
+                userId: 1
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -91,7 +96,8 @@ async function populate() {
                 resim: "4.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 3
+                categoryId: 3,
+                userId: 2
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -100,7 +106,8 @@ async function populate() {
                 resim: "4.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 3
+                categoryId: 3,
+                userId: 2
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -109,7 +116,8 @@ async function populate() {
                 resim: "4.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 3
+                categoryId: 3,
+                userId: 2
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -118,7 +126,8 @@ async function populate() {
                 resim: "4.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 3
+                categoryId: 3,
+                userId: 2
             }, {
                 baslik: "Node.js ile Sıfırdan İleri Seviye Web Geliştirme",
                 url: slugField("Node.js ile Sıfırdan İleri Seviye Web Geliştirme"),
@@ -127,7 +136,8 @@ async function populate() {
                 resim: "4.jpeg",
                 anasayfa: true,
                 onay: true,
-                categoryId: 3
+                categoryId: 3,
+                userId: 2
             }
         ]);
 

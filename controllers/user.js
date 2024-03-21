@@ -1,6 +1,7 @@
+const sequelize = require("../data/db");
 const Blog = require("../models/blog");
 const Category = require("../models/category");
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 
 // exports.blog_by_category = async function(req, res) {
 //     try {

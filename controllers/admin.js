@@ -369,6 +369,7 @@ exports.get_categories = async function(req, res){
 }
 
 
+
 exports.get_roles = async function(req, res) {
     try {
         const roles = await Role.findAll({

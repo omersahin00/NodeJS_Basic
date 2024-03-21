@@ -29,6 +29,10 @@ const Blog = sequelize.define("blog", {
     onay: {
         type: DataTypes.BOOLEAN,
         allowNull: true
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     timestamps: true
