@@ -30,6 +30,10 @@ const Blog = sequelize.define("blog", {
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false

@@ -73,7 +73,7 @@ User.belongsToMany(Role, { through: "userRoles" });
 (async () => {
     await sequelize.sync({ force: true });
     await dummyData();
-})();
+})(); // Fazladan parantezler var !!!
 
 
 app.listen(3000, function() {
