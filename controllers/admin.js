@@ -2,6 +2,7 @@ const Blog = require("../models/blog");
 const Category = require("../models/category");
 const Role = require("../models/role");
 const User = require("../models/user");
+const File = require("../models/file");
 
 const fs = require("fs");
 const sequelize = require("../data/db");
@@ -10,6 +11,8 @@ const { Op } = require("sequelize");
 const slugField = require("../helpers/slugfield");
 const emailService = require("../helpers/send-mail");
 const Message = require("../helpers/message-manager");
+const upload = require("../helpers/file-upload");
+const { title } = require("process");
 
 
 exports.get_blog_delete = async function(req, res){
@@ -615,6 +618,35 @@ exports.post_user_edit = async function(req, res) {
         return res.redirect("/admin/user-list");
     }
     catch(error) {
+        console.log(error);
+    }
+}
+
+
+exports.get_file_upload = async function(req, res) {
+    try {
+        res.render("admin/file-upload", {
+            title: "File Upload"
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_file_upload = async function(req, res) {
+    const filename = req.file.filename;
+    const originalname = req.file.originalname;
+
+    try {
+        const newFile = await File.create({
+            filename: filename,
+            originalname: originalname
+        });
+
+        res.redirect("/admin/file-upload");
+    }
+    catch (error) {
         console.log(error);
     }
 }

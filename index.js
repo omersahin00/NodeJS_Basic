@@ -29,6 +29,7 @@ const Blog = require("./models/blog");
 const Category = require("./models/category");
 const User = require("./models/user");
 const Role = require("./models/role");
+const File = require("./models/file");
 
 // Middleware:
 app.use(express.urlencoded({ extended: false }));
@@ -44,6 +45,7 @@ app.use(session({
         db: sequelize
     })
 }));
+
 
 app.use(locals);
 app.use(csurf());

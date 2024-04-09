@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const imageUpload = require("../helpers/image-upload");
+const fileUpload = require("../helpers/file-upload");
 
 // Middlewares:
 const isAuth = require("../middlewares/auth");
@@ -58,5 +59,10 @@ router.post("/delete", isAuth, adminController.post_user_delete);
 router.get("/user-edit/:id", isAuth, csrf, adminController.get_user_edit);
 
 router.post("/user-edit", isAuth, csrf, adminController.post_user_edit);
+
+
+router.get("/file-upload", isAuth, csrf, adminController.get_file_upload);
+
+router.post("/file-upload", isAuth, fileUpload.upload.single("file"), adminController.post_file_upload);
 
 module.exports = router;

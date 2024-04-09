@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/head")  %> 
+</head>
+<body>
+
+    <%- include("../partials/nav") %> 
+    <%- include('../partials/navAdmin') %>
+
+    <div class="container mt-3">
+        <form method="post" action="/admin/file-upload?_csrf=<%= csrfToken %>" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row mb-3">
+                        <label for="file" class="col-sm-2 col-form-label">File</label>
+                        <div class="col-sm-11">
+                            <input type="file" class="form-control" id="file" name="file" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-12 offset-sm-1">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
