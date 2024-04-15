@@ -14,6 +14,7 @@ const path = require("path");
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
 const authRouter = require("./routes/auth");
+const redirectRouter = require("./routes/redirect");
 
 // Custom Modules:
 const sequelize = require("./data/db");
@@ -30,6 +31,7 @@ const Category = require("./models/category");
 const User = require("./models/user");
 const Role = require("./models/role");
 const File = require("./models/file");
+const Redirect = require("./models/redirect");
 
 // Middleware:
 app.use(express.urlencoded({ extended: false }));
@@ -56,6 +58,7 @@ app.use("/static", express.static(path.join(__dirname, "public"))); // static ->
 app.use("/admin", adminRouter);
 app.use("/account", authRouter);
 app.use(userRouter);
+app.use("/r", redirectRouter);
 
 
 Blog.belongsTo(User, {
@@ -73,9 +76,9 @@ User.belongsToMany(Role, { through: "userRoles" });
 
 
 (async () => {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ alter: true });
     await dummyData();
-})(); // Fazladan parantezler var !!!
+})();
 
 
 app.listen(3000, function() {
