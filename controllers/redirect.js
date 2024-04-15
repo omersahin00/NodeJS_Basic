@@ -44,8 +44,16 @@ exports.get_create_redirect_url = async (req, res) => {
 
 exports.post_create_redirect_url = async (req, res) => {
     try {
-        const url = req.body.url;
+        let url = req.body.url;
         const token = await generateShortToken(6);
+        
+        if (!url.includes("www.")) {
+            url = "www." + url;
+        }
+
+        if (!(url.startsWith("https://") || url.startsWith("http://"))) {
+            url = "https://" + url;
+        }
         
         await Redirect.create({
             token: token,
