@@ -205,12 +205,6 @@ exports.get_blogs = async function(req, res){
     const isModerator = req.session.roles.includes("moderator");
     const isAdmin = req.session.roles.includes("admin");
 
-    console.log("\n\n");
-    console.log(isAdmin);
-    console.log("\n\n");
-    console.log(isModerator);
-    console.log("\n\n");
-
     try {
         const blogs = await Blog.findAll({
             attributes: ["id", "resim", "baslik", "url"],
@@ -225,8 +219,8 @@ exports.get_blogs = async function(req, res){
             res.render("admin/blog-list", {
                 title: "Blog List",
                 blogs: blogs,
-                action: req.query.action,
                 blogid: req.query.blogid,
+                action: req.query.action,
                 type: req.query.type
             });
         }

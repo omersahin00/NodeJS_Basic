@@ -17,7 +17,7 @@ exports.get_redirect_to_url = async (req, res) => {
         });
 
         if (!redirect || !redirect.url) {
-            return res.redirect("/r/short-url-create");
+            return res.redirect("/r/short-url-create?action=redirect&type=error");
         }
 
         console.log("\nRedirect in: ", token, "\nRedirect to: ", redirect.url, "\n");
@@ -40,6 +40,8 @@ exports.get_create_redirect_url = async (req, res) => {
             title: "Create Short URL",
             message: message,
             shortUrl: shortUrl,
+            action: req.query.action,
+            type: req.query.type
         });
     }
     catch (error) {

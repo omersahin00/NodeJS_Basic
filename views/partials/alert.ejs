@@ -50,6 +50,16 @@
     <% } %>
 <% } catch {} %>
 
+<% try { %>
+    <% if (action != undefined && action == "redirect"){ %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <% if (type == "error") { %>
+                <strong>Yönlendirme hatası!</strong> 
+            <% } %>
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+<% } catch {} %>
 
 
 <% try { %>
