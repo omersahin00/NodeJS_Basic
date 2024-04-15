@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <%- include('../partials/headAlert') %>
+</head>
+<body>
+
+    <%- include('../partials/nav') %>
+    <%- include('../partials/navAdmin') %>
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12 mt-3">
+
+                <%- include('../partials/alert') %>
+                
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">id</th>
+                            <th style="width: 200px;">Token</th>
+                            <th style="width: 250px;">URL</th>
+                            <th style="width: 100px;">Short URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% redirects.forEach(redirect => { %>
+                            <tr>
+                                <td> #<%= redirect.id %> </td>
+                                <td>
+                                    <%= redirect.token %>
+                                </td>
+                                <td>
+                                    <%= redirect.url %>
+                                </td>
+                                <td>
+                                    <%= redirect.shortUrl %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

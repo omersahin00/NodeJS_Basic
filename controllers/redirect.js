@@ -60,11 +60,47 @@ exports.post_create_redirect_url = async (req, res) => {
             url: url
         });
 
-        req.session.message = Message(`Kısa url başarıyla oluşturuldu:  ${config.address.local}r/${token}`, "success");
+        if (config.platform == "local") {
+            var address = config.address.local
+        }
+        else if (config.platform == "public") {
+            var address = config.address.public
+        }
+
+        req.session.message = Message(`Kısa url başarıyla oluşturuldu:  ${address}r/${token}`, "success");
         return res.redirect("/r/short-url-create");
     }
     catch (error) {
         console.log(error);
         req.session.message = Message("Bir hata oluştu!", "danger");
+    }
+}
+
+exports.get_short_url_list = async (req, res) => {
+    try {
+        const redirects = await Redirect.findAll();
+        if (!redirects) {
+            req.session.message = Message("Linkler alnırken bir sorun oluştu!", "danger");
+            return res.redirect("/r/short-url-create");
+        }
+
+        if (config.platform == "local") {
+            var shortUrl = config.address.local
+        }
+        else if (config.platform == "public") {
+            var shortUrl = config.address.public
+        }
+
+        redirects.forEach(redirect => {
+            redirect.shortUrl = shortUrl + "r/" + redirect.token;
+        });
+
+        return res.render("redirect/link-list", {
+            title: "Link List",
+            redirects: redirects
+        });
+    }
+    catch (error) {
+        console.log(error);
     }
 }

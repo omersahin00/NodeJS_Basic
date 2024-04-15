@@ -15,7 +15,9 @@ const config = {
     address: {
         local: "127.0.0.1:3000/",
         public: "mer.omersahin.keenetic.pro/"
-    }
+    },
+    platform: "local",
+    // platform: "public"
 }
 
 module.exports = config;
