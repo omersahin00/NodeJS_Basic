@@ -31,10 +31,42 @@
                 <br>
 
                 <%- include('../partials/alert') %>
-                
+
+                <% if (shortUrl != null) { %>
+                    <div class="container mt-5">
+                        <div class="card rounded bg-primary">
+                            <div class="card-body">
+                                <h5 class="card-title text-white">Kısaltılmış URL:</h5>
+                                <div style="display: flex;">
+                                    <p id="short-url" style="margin-right: auto;" class="card-text text-white"><%= shortUrl %></p>
+                                    <button id="copy-button" style="justify-content: space-between;" class="btn btn-warning">Kopyala</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                <% } %>
+
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById("copy-button").addEventListener("click", function() {
+            var text = document.getElementById("short-url");
+            var select = window.getSelection();
+            var interval = document.createRange();
+            interval.selectNodeContents(text);
+            select.removeAllRanges();
+            select.addRange(interval);
+
+            document.execCommand("copy");
+            select.removeAllRanges();
+
+            var buton = document.getElementById('copy-button');
+            buton.textContent = 'Kopyalandı ✔️';
+            buton.disabled = true;
+        });
+    </script>
 
 </body>
 </html>

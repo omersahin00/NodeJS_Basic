@@ -13,11 +13,12 @@ const config = {
         from: hotmail.from
     },
     address: {
-        local: "127.0.0.1:3000/",
-        public: "mer.omersahin.keenetic.pro/"
+        local: "127.0.0.1",
+        public: "mer.omersahin.keenetic.pro"
     },
-    platform: "local",
-    // platform: "public"
+    // platform: "local",
+    platform: "public",
+    port: 3000
 }
 
 module.exports = config;

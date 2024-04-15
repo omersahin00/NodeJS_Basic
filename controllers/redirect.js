@@ -29,12 +29,15 @@ exports.get_redirect_to_url = async (req, res) => {
 
 exports.get_create_redirect_url = async (req, res) => {
     const message = req.session.message;
+    const shortUrl = req.session.shortUrl;
     delete req.session.message;
+    delete req.session.shortUrl;
 
     try {
         return res.render("redirect/create-shorturl", {
-            title: "Create Short Url",
-            message: message
+            title: "Create Short URL",
+            message: message,
+            shortUrl: shortUrl,
         });
     }
     catch (error) {
@@ -62,12 +65,16 @@ exports.post_create_redirect_url = async (req, res) => {
 
         if (config.platform == "local") {
             var address = config.address.local
+            shortUrl += ":" + config.port;
         }
         else if (config.platform == "public") {
             var address = config.address.public
         }
+        
+        address += "/r/";
 
-        req.session.message = Message(`Kısa url başarıyla oluşturuldu:  ${address}r/${token}`, "success");
+        req.session.shortUrl = address + token;
+        
         return res.redirect("/r/short-url-create");
     }
     catch (error) {
@@ -86,13 +93,16 @@ exports.get_short_url_list = async (req, res) => {
 
         if (config.platform == "local") {
             var shortUrl = config.address.local
+            shortUrl += ":" + config.port;
         }
         else if (config.platform == "public") {
             var shortUrl = config.address.public
         }
 
+        shortUrl += "/r/";
+
         redirects.forEach(redirect => {
-            redirect.shortUrl = shortUrl + "r/" + redirect.token;
+            redirect.shortUrl = shortUrl + redirect.token;
         });
 
         return res.render("redirect/link-list", {
