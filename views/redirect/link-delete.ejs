@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../partials/head") %>
+</head>
+<body>
+    
+    <%- include("../partials/nav") %> 
+    <%- include('../partials/navAdmin') %>
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12 mt-3 text-center">
+                <p class="mb-3">
+                    <b>Tüm yönlendirme bilgilerini silmek istiyor musunuz?</b>
+                </p>
+                <form action="/r/short-url-delete-all" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <button type="submit" class="btn btn-danger">Evet</button>
+                    <a href="/r/short-url-list" class="btn btn-primary">Vazgeç</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

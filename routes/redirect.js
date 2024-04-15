@@ -16,6 +16,8 @@ router.post("/short-url-create", redirectController.post_create_redirect_url);
 
 router.post("/short-url-delete/:token", csrf, redirectController.post_short_url_delete);
 
+router.get("/short-url-delete-all", csrf, redirectController.get_short_url_delete_all);
+
 router.post("/short-url-delete-all", csrf, redirectController.post_short_url_delete_all);
 
 router.get("/:token", redirectController.get_redirect_to_url);

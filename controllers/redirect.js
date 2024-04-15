@@ -17,7 +17,7 @@ exports.get_redirect_to_url = async (req, res) => {
         });
 
         if (!redirect || !redirect.url) {
-            return res.redirect("/");
+            return res.redirect("/r/short-url-create");
         }
 
         console.log("\nRedirect in: ", token, "\nRedirect to: ", redirect.url, "\n");
@@ -137,6 +137,17 @@ exports.post_short_url_delete = async(req, res) => {
         });
 
         return res.redirect("/r/short-url-list");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.get_short_url_delete_all = async(req, res) => {
+    try {
+        return res.render("redirect/link-delete", {
+            title: "Delete All Link"
+        });
     }
     catch (error) {
         console.log(error);

@@ -50,10 +50,7 @@
                 </table>
                 
                 <% if (redirects.length > 0) { %>
-                    <form method="post" action="/r/short-url-delete-all">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <button class="btn btn-lg btn-danger">DELETE ALL</button>
-                    </form>
+                    <a href="/r/short-url-delete-all" class="btn btn-lg btn-danger">DELETE ALL</a>
                 <% } %>
                 
             </div>
