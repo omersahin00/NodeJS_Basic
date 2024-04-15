@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 
-exports.generateShortToken = (length) => {
+function generateShortToken(length) {
     return new Promise((resolve, reject) => {
         crypto.randomBytes(length, (err, buffer) => {
             if (err) {
@@ -15,3 +15,5 @@ exports.generateShortToken = (length) => {
         });
     });
 }
+
+module.exports = generateShortToken;
