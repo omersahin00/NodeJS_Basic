@@ -19,7 +19,9 @@ exports.get_redirect_to_url = async (req, res) => {
         if (!redirect || !redirect.url) {
             return res.redirect("/");
         }
-        
+
+        console.log("\nRedirect in: ", token, "\nRedirect to: ", redirect.url, "\n");
+
         return res.redirect(redirect.url);
     }
     catch (error) {
@@ -34,7 +36,7 @@ exports.get_create_redirect_url = async (req, res) => {
     delete req.session.shortUrl;
 
     try {
-        return res.render("redirect/create-shorturl", {
+        return res.render("redirect/link-create", {
             title: "Create Short URL",
             message: message,
             shortUrl: shortUrl,
@@ -86,6 +88,9 @@ exports.post_create_redirect_url = async (req, res) => {
 exports.get_short_url_list = async (req, res) => {
     try {
         const redirects = await Redirect.findAll();
+        const message = req.session.message;
+        delete req.session.message;
+
         if (!redirects) {
             req.session.message = Message("Linkler alnırken bir sorun oluştu!", "danger");
             return res.redirect("/r/short-url-create");
@@ -107,8 +112,43 @@ exports.get_short_url_list = async (req, res) => {
 
         return res.render("redirect/link-list", {
             title: "Link List",
-            redirects: redirects
+            redirects: redirects,
+            message: message
         });
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_short_url_delete = async(req, res) => {
+    try {
+        const token = req.params.token;
+        
+        if (!token) {
+            req.session.message = Message("Token alınamadı!", "danger");
+            return res.redirect("/r/short-url-list");
+        }
+        
+        await Redirect.destroy({
+            where: {
+                token: token
+            }
+        });
+
+        return res.redirect("/r/short-url-list");
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.post_short_url_delete_all = async(req, res) => {
+    try {
+        await Redirect.destroy({
+            where: {}
+        });
+        return res.redirect("/r/short-url-list");
     }
     catch (error) {
         console.log(error);

@@ -39,12 +39,23 @@
                                     <%= redirect.shortUrl %>
                                 </td>
                                 <td>
-                                    <a href="" class="btn btn-sm btn-danger">Delete</a>
+                                    <form method="post" action="/r/short-url-delete/<%= redirect.token %>">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button class="btn btn-sm btn-danger">Delete</a>
+                                    </form>
                                 </td>
                             </tr>
                         <% }) %>
                     </tbody>
                 </table>
+                
+                <% if (redirects.length > 0) { %>
+                    <form method="post" action="/r/short-url-delete-all">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button class="btn btn-lg btn-danger">DELETE ALL</button>
+                    </form>
+                <% } %>
+                
             </div>
         </div>
     </div>
