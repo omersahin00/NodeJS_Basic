@@ -12,10 +12,7 @@ const csurf = require("csurf");
 const path = require("path");
 
 // Routes:
-const userRouter = require("./routes/user");
-const adminRouter = require("./routes/admin");
-const authRouter = require("./routes/auth");
-const redirectRouter = require("./routes/redirect");
+const routes = require("./routes/index");
 
 // Custom Modules:
 const sequelize = require("./data/db");
@@ -55,12 +52,8 @@ app.use(csurf());
 
 app.use("/libs", express.static(path.join(__dirname, "node_modules"))); // libs -> dosya yolu verilirken node_modules yerine kullanılacak olan ifade (optional)
 app.use("/static", express.static(path.join(__dirname, "public"))); // static -> public yerine kullanılacak olan ifade (optional)
- 
-app.use("/admin", adminRouter);
-app.use("/account", authRouter);
-app.use(userRouter);
-app.use("/r", redirectRouter);
 
+app.use(routes);
 
 Blog.belongsTo(User, {
     foreignKey: {
