@@ -16,8 +16,8 @@ const config = {
         local: "127.0.0.1",
         public: "mer.omersahin.keenetic.pro"
     },
-    // platform: "local",
-    platform: "public",
+    platform: "local",
+    // platform: "public",
     port: 3000
 }
 

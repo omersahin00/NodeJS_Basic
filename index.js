@@ -32,6 +32,7 @@ const File = require("./models/file");
 const Redirect = require("./models/redirect");
 
 // Middleware:
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
