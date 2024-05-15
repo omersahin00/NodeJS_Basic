@@ -2,6 +2,8 @@
 const express = require("express");
 const app = express();
 const config = require("./config");
+const fs = require("fs");
+const https = require("https");
 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -75,7 +77,7 @@ User.belongsToMany(Role, { through: "userRoles" });
     await dummyData();
 })();
 
-
 app.listen(config.port, function() {
     console.log(`listening on port ${config.port}`);
 });
+
