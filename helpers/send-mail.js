@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
-const config  = require("../config");
+const config = require("../config");
 
-var transporter = nodemailer.createTransport({
+// Outlook Mailer:
+var transporterOutlook = nodemailer.createTransport({
     host: "smtp-mail.outlook.com",
     secure: false,
     port: 587,
@@ -14,5 +15,13 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+// Gmail Mailer:
+var transporterGmail = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: config.email.username,
+        pass: config.email.password
+    }
+});
 
-module.exports = transporter;
+module.exports = transporterOutlook;

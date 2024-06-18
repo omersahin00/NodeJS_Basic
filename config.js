@@ -1,4 +1,4 @@
-const { hotmail } = require("./private/email-info"); // Secret information. (Git not update)
+const { hotmail: mail } = require("./private/email-info"); // Secret information. (Git not update)
 
 const config = {
     db: {
@@ -8,9 +8,9 @@ const config = {
         database: "blogdb"
     },
     email: {
-        username: hotmail.username,
-        password: hotmail.password,
-        from: hotmail.from
+        username: mail.username,
+        password: mail.password,
+        from: mail.from
     },
     address: {
         local: "127.0.0.1",
