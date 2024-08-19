@@ -14,7 +14,7 @@ const config = {
     },
     address: {
         local: "127.0.0.1",
-        public: "mer.omersahin.keenetic.pro"
+        public: "*****"
     },
     platform: "local",
     // platform: "public",
